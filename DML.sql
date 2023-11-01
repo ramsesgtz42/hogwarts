@@ -33,7 +33,7 @@ INSERT INTO Students (studEmail, firstName, lastName, classYear, houseID)
 VALUES (:emailInput, :fnameInput, :lnameInput, :yearInput, :houseInput);
 
 --Hire a new Professor
-INSERT INTO Professors (professorEmail, firstName, lastName, salary, startDate, officeLocation, houseID)
+INSERT INTO Professors (profEmail, firstName, lastName, salary, startDate, officeLocation, houseID)
 VALUES (:emailInput, :fnameInput, :lnameInput, :salaryInput, :startInput, :officeInput, :houseInput);
 
 --Add a new Class
