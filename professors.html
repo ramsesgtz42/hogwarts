@@ -1,0 +1,132 @@
+<html>
+    <head>
+    <meta charset="utf-8">
+    <title>Professors</title>
+    </head>
+    <body>
+        <header>
+            <h1>Hogwarts Professors</h1>
+            <h2>Group 108</h2>
+        </header>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="students.html">Students</a>
+            <a href="professors.html">Professors</a>
+            <a href="points.html">House Points</a>
+            <a href="classes.html">Classes</a>
+            <a href="houses.html">Houses</a>
+        </nav>
+        <main>
+            <section>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Office Location</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Salary</th>
+                            <th>House</th>
+                            <th>Head of House</th>
+                            <th>Edit Professor</th>
+                            <th>Delete Professor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Severus</td>
+                            <td>Snape</td>
+                            <td>ssnape@hogwarts.edu</td>
+                            <td>Slytherin Tower Rm 42</td>
+                            <td>1990-01-01</td>
+                            <td>null</td>
+                            <td>100000.00</td>
+                            <td>Slytherin</td>
+                            <td>Yes</td>
+                            <td>
+                                <button type="edit">Edit</button>
+                            </td>
+                            <td>
+                                <button type="delete">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Rubeus</td>
+                            <td>Hagrid</td>
+                            <td>rhagrid@hogwarts.edu</td>
+                            <td>Hagrid's Hut</td>
+                            <td>1985-01-01</td>
+                            <td>null</td>
+                            <td>60000.00</td>
+                            <td>Gryffindor</td>
+                            <td>No</td>
+                            <td>
+                                <button type="edit">Edit</button>
+                            </td>
+                            <td>
+                                <button type="delete">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Filius</td>
+                            <td>Flitwick</td>
+                            <td>fflitwick@hogwarts.edu</td>
+                            <td>Ravenclaw Tower Rm 21</td>
+                            <td>1970-01-01</td>
+                            <td>null</td>
+                            <td>100000.00</td>
+                            <td>Ravenclaw</td>
+                            <td>Yes</td>
+                            <td>
+                                <button type="edit">Edit</button>
+                            </td>
+                            <td>
+                                <button type="delete">Delete</button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <p>&nbsp;</p>
+                <form method="POST" id="addProfessor">
+                    <legend>Add Professor</legend>
+                    <fieldset class="fields">
+                        <label>First Name</label>
+                        <input type="text" name="fname">
+                        <label>Last Name</label>
+                        <input type="text" name="lname">
+                        <label>Email</label>
+                        <input type="email" name="email">
+                        <label>Office Location</label>
+                        <input type="text" name="officelocation">
+                        <label>Start Date</label>
+                        <input type="date" name="startdate">
+                        <label>End Date</label>
+                        <input type="date" name="enddate">
+                        <label>Salary</label>
+                        <input type="number" name="salary">
+                        <label>House</label>
+                        <select name="house">
+                            <option value="Select House">Select House</option>
+                            <option value="Gryffindor">Gryffindor</option>
+                            <option value="Hufflepuff">Hufflepuff</option>
+                            <option value="Ravenclaw">Ravenclaw</option>
+                            <option value="Slytherin">Slytherin</option>
+                        </select>
+                        <label>Head of House</label>
+                        <select name="isheadofhouse">
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>     
+                        </select>
+
+                    </fieldset>
+                    <button type= "new">Add New Professor</button>
+                </form>
+
+            </section>
+        </main>
+    </body>
+
+</html>

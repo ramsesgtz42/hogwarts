@@ -1,0 +1,73 @@
+<html>
+    <head>
+    <meta charset="utf-8">
+    <title>House Points</title>
+    </head>
+    <body>
+        <header>
+            <h1>House Points</h1>
+            <h2>Group 108</h2>
+        </header>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="students.html">Students</a>
+            <a href="professors.html">Professors</a>
+            <a href="points.html">House Points</a>
+            <a href="classes.html">Classes</a>
+            <a href="houses.html">Houses</a>
+        </nav>
+        <main>
+            <section>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Number of Points</th>
+                            <th>Date</th>
+                            <th>Professor</th>
+                            <th>Student</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>15</td>
+                            <td>1993-05-05</td>
+                            <td>Severus Snape</td>
+                            <td>Draco Malfoy</td>
+                        </tr>
+                        <tr>
+                            <td>15</td>
+                            <td>1993-05-06</td>
+                            <td>Rubeus Hagrid</td>
+                            <td>Harry Potter</td>
+                        </tr>
+                        <tr>
+                            <td>15</td>
+                            <td>1993-05-07</td>
+                            <td>Filius Flitwick</td>
+                            <td>Luna Lovegood</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>&nbsp;</p>
+                <form method="POST" id="addPoints">
+                    <legend>Add Points</legend>
+                    <fieldset class="fields">
+                        <label>Number of Points</label>
+                        <input type="number" name="numberofpoints">
+                        <label>Date</label>
+                        <input type="date" name="date">
+                        <!-- Figure out how to make select buttons out of professors and students that have been added
+                             instead of having write in answers-->
+                        <label>Professor</label>
+                        <input type="text" name="professor">
+                        <label>Student</label>
+                        <input type="text" name="student">
+                    </fieldset>
+                    <button type= "new">Add Points</button>
+                </form>
+
+            </section>
+        </main>
+    </body>
+
+</html>
