@@ -13,19 +13,19 @@ SELECT classID, className, classLocation, classTime, CONCAT(Professors.firstName
 INNER JOIN Professors ON Classes.professorID = Professors.professorID;
 
 -- get Point Assignment information to populate Points page
-SELECT assignmentID, numOfPoints, dateAssigned, CONCAT(Professors.firstName," ", Professors.lastName) as Professor, CONCAT(Students.firstName," ", Students.lastName) as Student FROM Point_assignments
-JOIN Professors ON Point_assignments.professorID = Professors.professorID
-JOIN Students ON Point_assignments.studentID = Students.studentID;
+SELECT assignmentID, numOfPoints, dateAssigned, CONCAT(Professors.firstName," ", Professors.lastName) as Professor, CONCAT(Students.firstName," ", Students.lastName) as Student FROM Point_Assignments
+JOIN Professors ON Point_Assignments.professorID = Professors.professorID
+JOIN Students ON Point_Assignments.studentID = Students.studentID;
 
 --get House information to populate Houses page
 SELECT houseID, houseName, dormLocation as Dorm, housePoints FROM Houses;
 
---get Classes_to_Students information to view Enrolled Students in Student page
+--get Classes_To_Students information to view Enrolled Students in Student page
 SELECT Classes.className as Class, CONCAT(Professors.firstName," ", Professors.lastName) as Professor,
          CONCAT(Students.firstName," ", Students.lastName) as Student FROM Classes_to_Students
-JOIN Classes ON Classes_to_Students.classID = Classes.classID
+JOIN Classes ON Classes_To_Students.classID = Classes.classID
 JOIN Professors ON Classes.professorID = Professors.professorID
-JOIN Students ON Classes_to_Students.studentID = Students.studentID;
+JOIN Students ON Classes_To_Students.studentID = Students.studentID;
 
 
 --Enroll a new Student
@@ -45,11 +45,11 @@ INSERT INTO Houses (houseName, dormLocation)
 VALUES (:nameInput, :locationInput);
 
 --Create a new Point Assignment record
-INSERT INTO Point_assignments (numOfPoints, dateAssigned, professorID, studentID)
+INSERT INTO Point_Assignments (numOfPoints, dateAssigned, professorID, studentID)
 VALUES (:pointInput, :dateInput, :professorInput, :studentInput);
 
 --Enroll a Student into a Class
-INSERT INTO Classes_to_Students(classID, studentID)
+INSERT INTO Classes_To_Students(classID, studentID)
 VALUES (:classInput, :studentInput);
 
 
@@ -76,5 +76,5 @@ UPDATE Classes SET className = :nameInput, classLocation = :locationInput,
 DELETE FROM Students WHERE studentID = :idInput;
 
 --Drop a Student's Class
-DELETE FROM Classes_to_Students WHERE classID = :classInput AND studentID = :studentInput; 
+DELETE FROM Classes_To_Students WHERE classID = :classInput AND studentID = :studentInput; 
 

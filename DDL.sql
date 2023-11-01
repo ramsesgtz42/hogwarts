@@ -62,7 +62,7 @@ CREATE OR REPLACE TABLE Students (
 
 
 -- Creates Point_assignments Table
-CREATE OR REPLACE TABLE Point_assignments(
+CREATE OR REPLACE TABLE Point_Assignments(
     assignmentID int UNIQUE NOT NULL AUTO_INCREMENT,
     numOfPoints int NOT NULL,
     dateAssigned DATE NOT NULL,
@@ -75,12 +75,12 @@ CREATE OR REPLACE TABLE Point_assignments(
 
 
 -- Creates Classes_to_Students Table
-CREATE OR REPLACE TABLE Classes_to_Students(
+CREATE OR REPLACE TABLE Classes_To_Students(
     classID int,
     studentID int,
     FOREIGN KEY (classID) REFERENCES Classes(classID) ON DELETE CASCADE,
     FOREIGN KEY (studentID) REFERENCES Students(studentID) ON DELETE CASCADE,
-    CONSTRAINT classes_to_studentsID PRIMARY KEY (classID, studentID)
+    CONSTRAINT classesToStudentsID PRIMARY KEY (classID, studentID)
 );
 
 
@@ -230,7 +230,7 @@ VALUES
 
 
 -- Inserting sample data into Point_assignments table
-INSERT INTO Point_assignments (
+INSERT INTO Point_Assignments (
     numOfPoints,
     dateAssigned,
     professorID,
@@ -258,7 +258,7 @@ VALUES
 
 
 -- Inserting sample data into Classes_to_Students table
-INSERT INTO Classes_to_Students(
+INSERT INTO Classes_To_Students(
     classID,
     studentID
 )
