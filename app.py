@@ -1,4 +1,5 @@
-from flask import Flask, render_template, json
+from flask import Flask, render_template, json, redirect, request
+#from flask_mysqldb import MySql
 import os
 #import database.db_connector as db
 
@@ -6,6 +7,11 @@ import os
 # Configuration
 
 app = Flask(__name__)
+app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
+app.config['MYSQL_USER'] = 'cs340_gutiealb'
+app.config['MYSQL_PASSWORD'] = '4429' #last 4 of onid
+app.config['MYSQL_DB'] = 'cs340_gutiealb'
+app.config['MYSQL_CURSORCLASS'] = "DictCursor"
 #db_connection = db.connect_to_database()
 
 # Routes 
@@ -14,8 +20,8 @@ app = Flask(__name__)
 def root():
     return render_template("main.j2")
 
-@app.route('/classes')
-def classes():
+#@app.route('/classes')
+#def classes():
     query = "SELECT classID, className, classLocation, classTime, CONCAT(Professors.firstName," ", Professors.lastName) as Professor FROM Classes"
     cursor = db.execute_query(db_connection=db_connection, query=query)
     results = json.dumps(cursor.fetchall())
@@ -25,7 +31,4 @@ def classes():
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 9112)) 
-    #                                 ^^^^
-    #              You can replace this number with any valid port
-    
     app.run(port=port, debug=True) 
