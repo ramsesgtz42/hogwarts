@@ -8,7 +8,7 @@ load_dotenv(find_dotenv())
 # Set the variables in our application with those environment variables
 host = 'classmysql.engr.oregonstate.edu' 
 user = 'cs340_gutiealb'
-passwd = '4429'
+passwd = 'xxxx'
 db = 'cs340_gutiealb' 
 
 def connect_to_database(host = host, user = user, passwd = passwd, db = db):
