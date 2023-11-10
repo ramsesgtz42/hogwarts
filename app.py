@@ -1,7 +1,7 @@
 from flask import Flask, render_template, json, redirect, request
-#from flask_mysqldb import MySql
+from flask_mysqldb import MySQL
 import os
-#import database.db_connector as db
+import database.db_connector as db
 
 
 # Configuration
@@ -12,7 +12,9 @@ app.config['MYSQL_USER'] = 'cs340_gutiealb'
 app.config['MYSQL_PASSWORD'] = '4429' #last 4 of onid
 app.config['MYSQL_DB'] = 'cs340_gutiealb'
 app.config['MYSQL_CURSORCLASS'] = "DictCursor"
-#db_connection = db.connect_to_database()
+db_connection = db.connect_to_database()
+
+mysql = MySQL(app)
 
 # Routes 
 
@@ -20,12 +22,12 @@ app.config['MYSQL_CURSORCLASS'] = "DictCursor"
 def root():
     return render_template("main.j2")
 
-#@app.route('/classes')
-#def classes():
-    query = "SELECT classID, className, classLocation, classTime, CONCAT(Professors.firstName," ", Professors.lastName) as Professor FROM Classes"
+@app.route('/classes')
+def classes():
+    query = "SELECT * FROM Classes"
     cursor = db.execute_query(db_connection=db_connection, query=query)
-    results = json.dumps(cursor.fetchall())
-    return render_template("classes.j2", classes=results)
+    results = cursor.fetchall()
+    return render_template("classes.j2", Classes=results)
 
 # Listener
 
