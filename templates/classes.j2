@@ -1,6 +1,6 @@
 <html>
     <head>
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="static/css/style.css">
     <meta charset="utf-8">
     <title>Classes</title>
     </head>
@@ -14,7 +14,7 @@
             <a href="students.html">Students</a>
             <a href="professors.html">Professors</a>
             <a href="points.html">House Points</a>
-            <a href="classes.html">Classes</a>
+            <a href="classes">Classes</a>
             <a href="houses.html">Houses</a>
         </nav>
         <main>
@@ -35,8 +35,10 @@
                         {% for key in class.keys() %}
                             <td>{{class[key]}}</td>
                             {% endfor %}
-                            
+                            <td>Edit Class button</td>
+                            <td>Delete Class button</td>
                         </tr>
+                            
                         {% endfor %}
                     </tbody>
                 </table>

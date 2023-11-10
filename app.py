@@ -24,7 +24,7 @@ def root():
 
 @app.route('/classes')
 def classes():
-    query = "SELECT * FROM Classes"
+    query = 'SELECT classID, className, classLocation, classTime, CONCAT(Professors.firstName," ", Professors.lastName) as Professor FROM Classes INNER JOIN Professors ON Classes.professorID = Professors.professorID'
     cursor = db.execute_query(db_connection=db_connection, query=query)
     results = cursor.fetchall()
     return render_template("classes.j2", Classes=results)
@@ -32,5 +32,5 @@ def classes():
 # Listener
 
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 9112)) 
+    port = int(os.environ.get('PORT', 9115)) 
     app.run(port=port, debug=True) 
