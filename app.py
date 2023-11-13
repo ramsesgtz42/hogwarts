@@ -9,7 +9,7 @@ import database.db_connector as db
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
 app.config['MYSQL_USER'] = 'cs340_gutiealb'
-app.config['MYSQL_PASSWORD'] = '4429' #last 4 of onid
+app.config['MYSQL_PASSWORD'] = 'xxxx' #last 4 of onid
 app.config['MYSQL_DB'] = 'cs340_gutiealb'
 app.config['MYSQL_CURSORCLASS'] = "DictCursor"
 db_connection = db.connect_to_database()
@@ -25,7 +25,7 @@ def root():
 @app.route('/classes', methods=["POST", "GET"])
 def classes():
     if request.method == "GET":
-        #query to fill 2 tables
+        #queries to fill 2 tables
         query = 'SELECT classID, className as Class, classLocation as Location, classTime as Time, CONCAT(Professors.firstName," ", Professors.lastName) as Professor FROM Classes INNER JOIN Professors ON Classes.professorID = Professors.professorID'
         cursor = db.execute_query(db_connection=db_connection, query=query)
         results = cursor.fetchall()
@@ -34,6 +34,12 @@ def classes():
         cursor2 = db.execute_query(db_connection=db_connection, query=query2)
         results2 = cursor2.fetchall()
         return render_template("classes.j2", Classes=results, student_class = results2)
+    
+    if request.method == "POST":
+        if request.form.get("addClass"):
+            className = request.form["name"]
+            classLocation = request.form["location"]
+            classTime = request.form["time"]
 
 # Listener
 

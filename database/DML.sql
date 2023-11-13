@@ -74,5 +74,5 @@ UPDATE Classes SET className = :nameInput, classLocation = :locationInput,
 DELETE FROM Students WHERE studentID = :idInput;
 
 --Drop a Student's Class
-DELETE FROM Classes_To_Students WHERE classID = :classInput AND studentID = :studentInput; 
+DELETE FROM Classes_To_Students WHERE Classes.className = :classInput AND (Students.firstName AND Students.lastName) = :studentInput; 
 
