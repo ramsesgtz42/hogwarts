@@ -80,7 +80,7 @@ CREATE OR REPLACE TABLE Classes_To_Students(
     studentID int,
     FOREIGN KEY (classID) REFERENCES Classes(classID) ON DELETE CASCADE,
     FOREIGN KEY (studentID) REFERENCES Students(studentID) ON DELETE CASCADE,
-    CONSTRAINT classesToStudentsID PRIMARY KEY (classID, studentID)
+    CONSTRAINT classesToStudentsID PRIMARY KEY (classID,studentID)
 );
 
 

@@ -25,8 +25,8 @@
                             {% for key in Classes[0].keys() %}
                             <th>{{ key }}</th>
                             {% endfor %}
-                            <th>Edit Class</th>
-                            <th>Delete Class</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -35,8 +35,8 @@
                         {% for key in class.keys() %}
                             <td>{{class[key]}}</td>
                             {% endfor %}
-                            <td>Edit Class button</td>
-                            <td>Delete Class button</td>
+                            <td><a href="edit_class/{{class.id}}" class="btn btn-default">Edit Class</a></td>
+                            <td><a href="delete_class/{{class.id}}" class="btn btn-default">Delete Class</a></td>
                         </tr>
                             
                         {% endfor %}
@@ -60,81 +60,21 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Class</th>
-                            <th>Students</th>
+                            {% for key in student_class[0].keys() %}
+                            <th>{{ key }}</th>
+                            {% endfor %}
+                            <th>Withdraw Student</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {% for thing in student_class %}
                         <tr>
-                            <td>Potions</td>
-                            <td>Harry Potter</td>
-                            <td>
-                                <button type="edit">Edit</button>
-                            </td>
-                            <td>
-                                <button type="delete">Delete</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Potions</td>
-                            <td>Draco Malfoy</td>
-                            <td>
-                                <button type="edit">Edit</button>
-                            </td>
-                            <td>
-                                <button type="delete">Delete</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Care of Magical Creatures</td>
-                            <td>Harry Potter</td>
-                            <td>
-                                <button type="edit">Edit</button>
-                            </td>
-                            <td>
-                                <button type="delete">Delete</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Care of Magical Creatures</td>
-                            <td>Draco Malfoy</td>
-                            <td>
-                                <button type="edit">Edit</button>
-                            </td>
-                            <td>
-                                <button type="delete">Delete</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Care of Magical Creatures</td>
-                            <td>Luna Lovegood</td>
-                            <td>
-                                <button type="edit">Edit</button>
-                            </td>
-                            <td>
-                                <button type="delete">Delete</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Charms</td>
-                            <td>Harry Potter</td>
-                            <td>
-                                <button type="edit">Edit</button>
-                            </td>
-                            <td>
-                                <button type="delete">Delete</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Charms</td>
-                            <td>Draco Malfoy</td>
-                            <td>
-                                <button type="edit">Edit</button>
-                            </td>
-                            <td>
-                                <button type="delete">Delete</button>
-                            </td>
-                        </tr>
+                        {% for key in thing.keys() %}
+                            <td>{{thing[key]}}</td>
+                            {% endfor %}
+                            <td><a href="withdraw_student/{{thing.id}}" class="btn btn-default">Withdraw </a></td>
+                        </tr>       
+                        {% endfor %}
                     </tbody>
                 </table>
                 <p>&nbsp;</p>

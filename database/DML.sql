@@ -21,10 +21,8 @@ JOIN Students ON Point_Assignments.studentID = Students.studentID;
 SELECT houseID, houseName, dormLocation as Dorm, housePoints FROM Houses;
 
 --get Classes_To_Students information to view Enrolled Students in Student page
-SELECT Classes.className as Class, CONCAT(Professors.firstName," ", Professors.lastName) as Professor,
-         CONCAT(Students.firstName," ", Students.lastName) as Student FROM Classes_to_Students
-JOIN Classes ON Classes_To_Students.classID = Classes.classID
-JOIN Professors ON Classes.professorID = Professors.professorID
+SELECT Classes.className as Class, CONCAT(Students.firstName," ", Students.lastName) as Student FROM Classes_To_Students 
+JOIN Classes ON Classes_To_Students.classID = Classes.classID 
 JOIN Students ON Classes_To_Students.studentID = Students.studentID;
 
 

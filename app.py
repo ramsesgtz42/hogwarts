@@ -22,12 +22,18 @@ mysql = MySQL(app)
 def root():
     return render_template("main.j2")
 
-@app.route('/classes')
+@app.route('/classes', methods=["POST", "GET"])
 def classes():
-    query = 'SELECT classID, className, classLocation, classTime, CONCAT(Professors.firstName," ", Professors.lastName) as Professor FROM Classes INNER JOIN Professors ON Classes.professorID = Professors.professorID'
-    cursor = db.execute_query(db_connection=db_connection, query=query)
-    results = cursor.fetchall()
-    return render_template("classes.j2", Classes=results)
+    if request.method == "GET":
+        #query to fill 2 tables
+        query = 'SELECT classID, className as Class, classLocation as Location, classTime as Time, CONCAT(Professors.firstName," ", Professors.lastName) as Professor FROM Classes INNER JOIN Professors ON Classes.professorID = Professors.professorID'
+        cursor = db.execute_query(db_connection=db_connection, query=query)
+        results = cursor.fetchall()
+
+        query2 = 'SELECT Classes.className as Class, CONCAT(Students.firstName," ", Students.lastName) as Student FROM Classes_To_Students JOIN Classes ON Classes_To_Students.classID = Classes.classID JOIN Students ON Classes_To_Students.studentID = Students.studentID'
+        cursor2 = db.execute_query(db_connection=db_connection, query=query2)
+        results2 = cursor2.fetchall()
+        return render_template("classes.j2", Classes=results, student_class = results2)
 
 # Listener
 
