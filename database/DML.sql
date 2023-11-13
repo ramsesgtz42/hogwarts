@@ -9,7 +9,7 @@ SELECT professorID, firstName, lastName, profEmail, IFNULL(Houses.houseName, "Ho
 INNER JOIN Houses ON Professors.houseID = Houses.houseID;
 
 -- get Classes information to populate Classes page
-SELECT classID, className, classLocation, classTime, CONCAT(Professors.firstName," ", Professors.lastName) as Professor FROM Classes
+SELECT classID, className as Class, classLocation as Location, classTime as Time, CONCAT(Professors.firstName," ", Professors.lastName) as Professor FROM Classes
 INNER JOIN Professors ON Classes.professorID = Professors.professorID;
 
 -- get Point Assignment information to populate Points page
