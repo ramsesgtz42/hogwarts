@@ -4,5 +4,6 @@
 /lib64
 pyvenv.cfg
 /__pycache__
-/database/db_connector.py
-/database/db_credentials.py
+database/db_connector.py
+database/db_credentials.py
+database/__pycache__
