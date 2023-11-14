@@ -43,7 +43,7 @@
                     </tbody>
                 </table>
                 <p>&nbsp;</p>
-                <form method="POST" id="addClass">
+                <form method="POST" id="addClass" action="/classes">
                     <legend>Add Class</legend>
                     <fieldset class="fields">
                         <label>Class Name</label>
@@ -53,9 +53,13 @@
                         <label>Time</label>
                         <input type="text" name="time">
                         <label>Professor</label>
-                        <input type="text" name="professor">
+                        <select name="professor">
+                            {% for professor in professors %}
+                                <option value="{{professor['ID']}}"> {{professor['Professor']}}</option>
+                            {% endfor %}
+                        </select>
                     </fieldset>
-                    <button type= "new">Add New Class</button>
+                    <input type="submit" name="addClass" class="btn btn-primary" value="Add New Class"></button>
                 </form>
                 <table>
                     <thead>

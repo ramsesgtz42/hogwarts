@@ -24,18 +24,8 @@ def root():
 
 @app.route('/classes', methods=["POST", "GET"])
 def classes():
-    if request.method == "GET":
-        #queries to fill 2 tables
-        query = 'SELECT classID, className as Class, classLocation as Location, classTime as Time, CONCAT(Professors.firstName," ", Professors.lastName) as Professor FROM Classes INNER JOIN Professors ON Classes.professorID = Professors.professorID'
-        cursor = db.execute_query(db_connection=db_connection, query=query)
-        results = cursor.fetchall()
-
-        query2 = 'SELECT Classes.className as Class, CONCAT(Students.firstName," ", Students.lastName) as Student FROM Classes_To_Students JOIN Classes ON Classes_To_Students.classID = Classes.classID JOIN Students ON Classes_To_Students.studentID = Students.studentID'
-        cursor2 = db.execute_query(db_connection=db_connection, query=query2)
-        results2 = cursor2.fetchall()
-        return render_template("classes.j2", Classes=results, student_class = results2)
-    
     if request.method == "POST":
+        #if add class button is clicked
         if request.form.get("addClass"):
             className = request.form["name"]
             classLocation = request.form["location"]
@@ -44,14 +34,14 @@ def classes():
 
             if professorID == "":
                 # query if professor field left empty
-                query = "INSERT INTO Classes (className, classLocation, classTime) VALUES (%s, %s, %s);" 
+                query = "INSERT INTO Classes (className, classLocation, classTime) VALUES (%s, %s, %s)" 
                 cursor = mysql.connection.cursor()
                 cursor.execute(query, (className, classLocation, classTime))
                 mysql.connection.commit()
             
             else:
                 # query for all fields filled
-                query = "INSERT INTO Classes (className, classLocation, classTime, professorID) VALUES (%s, %s, %s, %s);"
+                query = "INSERT INTO Classes (className, classLocation, classTime, professorID) VALUES (%s, %s, %s, %s)"
                 cursor = mysql.connection.cursor()
                 cursor.execute(query, (className, classLocation, classTime, professorID))
                 mysql.connection.commit()
@@ -59,6 +49,27 @@ def classes():
             return redirect("/classes")
         
 
+    if request.method == "GET":
+        #query to fill first table for class info
+        query = 'SELECT classID, className as Class, classLocation as Location, classTime as Time, CONCAT(Professors.firstName," ", Professors.lastName) as Professor FROM Classes INNER JOIN Professors ON Classes.professorID = Professors.professorID'
+        cursor = db.execute_query(db_connection=db_connection, query=query)
+        results = cursor.fetchall()
+
+        #query to fill dropdown menu for adding new class
+        query3 = 'SELECT Professors.professorID as ID, CONCAT(Professors.firstName," ", Professors.lastName) as Professor FROM Professors'
+        cursor3 = db.execute_query(db_connection=db_connection, query=query3)
+        results3 = cursor3.fetchall()
+
+        #query to show students enrolled in classes
+        query2 = 'SELECT Classes.className as Class, CONCAT(Students.firstName," ", Students.lastName) as Student FROM Classes_To_Students JOIN Classes ON Classes_To_Students.classID = Classes.classID JOIN Students ON Classes_To_Students.studentID = Students.studentID'
+        cursor2 = db.execute_query(db_connection=db_connection, query=query2)
+        results2 = cursor2.fetchall()
+        return render_template("classes.j2", Classes=results, student_class = results2, professors = results3)
+    
+        
+        
+    
+    
 @app.route("/delete_class/<int:id>")
 def delete_class(id):
     # query to delete student-class relationship
