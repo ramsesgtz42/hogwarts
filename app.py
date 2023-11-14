@@ -70,6 +70,16 @@ def delete_class(id):
     return redirect("/classes") 
 
 
+@app.route("/edit_class/<int:id>", methods=["POST", "GET"])
+def edit_class(id):
+    if request.methon == "GET":
+    # mySQL query to get info of class with passed ID
+        query = "SELECT * from Classes WHERE classID = %s" % (id)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()    
+
+
 # Listener
 
 if __name__ == "__main__":
