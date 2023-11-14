@@ -35,8 +35,8 @@
                         {% for key in class.keys() %}
                             <td>{{class[key]}}</td>
                             {% endfor %}
-                            <td><a href="edit_class/{{class.id}}" class="btn btn-default">Edit Class</a></td>
-                            <td><a href="delete_class/{{class.id}}" class="btn btn-default">Delete Class</a></td>
+                            <td><a href="edit_class/{{class.classID}}" class="btn btn-default">Edit Class</a></td>
+                            <td><a href="delete_class/{{class.classID}}" class="btn btn-default">Delete Class</a></td>
                         </tr>
                             
                         {% endfor %}
@@ -72,7 +72,7 @@
                         {% for key in thing.keys() %}
                             <td>{{thing[key]}}</td>
                             {% endfor %}
-                            <td><a href="withdraw_student/{{thing.id}}" class="btn btn-default">Withdraw </a></td>
+                            <td><a href="withdraw/{{thing.id}}" class="btn btn-default">Withdraw </a></td>
                         </tr>       
                         {% endfor %}
                     </tbody>

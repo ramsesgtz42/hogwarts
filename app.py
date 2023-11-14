@@ -9,7 +9,7 @@ import database.db_connector as db
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
 app.config['MYSQL_USER'] = 'cs340_gutiealb'
-app.config['MYSQL_PASSWORD'] = 'xxxx' #last 4 of onid
+app.config['MYSQL_PASSWORD'] = '4429' #last 4 of onid
 app.config['MYSQL_DB'] = 'cs340_gutiealb'
 app.config['MYSQL_CURSORCLASS'] = "DictCursor"
 db_connection = db.connect_to_database()
@@ -40,6 +40,35 @@ def classes():
             className = request.form["name"]
             classLocation = request.form["location"]
             classTime = request.form["time"]
+            professorID = request.form["professor"]
+
+            if professorID == "":
+                # query if professor field left empty
+                query = "INSERT INTO Classes (className, classLocation, classTime) VALUES (%s, %s, %s);" 
+                cursor = mysql.connection.cursor()
+                cursor.execute(query, (className, classLocation, classTime))
+                mysql.connection.commit()
+            
+            else:
+                # query for all fields filled
+                query = "INSERT INTO Classes (className, classLocation, classTime, professorID) VALUES (%s, %s, %s, %s);"
+                cursor = mysql.connection.cursor()
+                cursor.execute(query, (className, classLocation, classTime, professorID))
+                mysql.connection.commit()
+
+            return redirect("/classes")
+        
+
+@app.route("/delete_class/<int:id>")
+def delete_class(id):
+    # query to delete student-class relationship
+    query = "DELETE FROM Classes WHERE classID = '%s'"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (id,))
+    mysql.connection.commit()
+
+    return redirect("/classes") 
+
 
 # Listener
 

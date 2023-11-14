@@ -76,3 +76,5 @@ DELETE FROM Students WHERE studentID = :idInput;
 --Drop a Student's Class
 DELETE FROM Classes_To_Students WHERE classId = (SELECT Classes.classId FROM Classes WHERE className = :classInput) = :classInput AND Students.studentId = (SELECT Students.studentId FROM Students WHERE Students.firstName = :studFirstName AND Students.lastName = :studLastName); 
 
+--Delete a Class
+DELETE FROM Classes WHERE classId = :classInput;
