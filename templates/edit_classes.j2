@@ -1,0 +1,66 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="static/css/style.css">
+    <meta charset="utf-8">
+    <title>Edit Class</title>
+    </head>
+    <body>
+        <header>
+            <h1>Hogwarts Classes</h1>
+            <h2>Group 108</h2>
+        </header>
+        <main>
+            <div>
+                <table>
+                    <caption> Editing Class: </caption>
+                    <thead>
+                        <tr>
+                            {% for key in data[0].keys() %}
+                            <th scope="col" data-field="{{key}}" data-filter-control="input">{{key}}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for item in data %}
+                        <tr>
+                            {%for key in item.keys()%}
+                            <td>{{item[key]}}</td> {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            <div>
+                <form id="editClass" action="/edit_classes/{{data[0].classID}}" method="POST">
+                    <legend>Edit Class</legend>
+                    <fieldset>
+                        <input type="hidden" value="{{data[0].classID}}" class="form-control" id="classID" name="classID" required>
+
+                        <label>Class Name</label>
+                        <input type="text" value="{{data[0].className}}" class="form-control" id="className" name="className" required>
+
+                        <label>Location</label>
+                        <input type="text" value="{{data[0].classLocation}}" class="form-control" id="classLocation" name="classLocation" required>
+
+                        <label>Time</label>
+                        <input type="text" value="{{data[0].classTime}}" class="form-control" id="classTime" name="classTime" required>
+
+                        <label>Professor</label>
+                        <select class="form-control" id="professor" name="professor" placeholder="">
+                            <option value="">&nbsp;</option>
+                            {% for professor in professors %}
+                                {% if professor['ID'] == data[0].professorID %}
+                                    <option value="{{professor['ID']}}" selected> {{professor['Professor']}}</option>
+                                {% else %}
+                                    <option value="{{professor['ID']}}"> {{professor['Professor']}}</option>
+                                {% endif %}
+
+                            {% endfor %}
+                        </select>
+                    </fieldset>
+                    <input type="submit" value="Edit Class" name="Edit_Class" class="btn btn-primary">
+                    <a href='/classes'><input class="btn" type="button" value="Cancel"></a>
+                </form>
+        </main>
+    </body>
+</html>

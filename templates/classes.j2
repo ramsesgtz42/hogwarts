@@ -25,8 +25,6 @@
                             {% for key in Classes[0].keys() %}
                             <th>{{ key }}</th>
                             {% endfor %}
-                            <th>Edit</th>
-                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -35,23 +33,23 @@
                         {% for key in class.keys() %}
                             <td>{{class[key]}}</td>
                             {% endfor %}
-                            <td><a href="edit_class/{{class.classID}}" class="btn btn-default">Edit Class</a></td>
-                            <td><a href="delete_class/{{class.classID}}" class="btn btn-default">Delete Class</a></td>
+                            <td><a href="edit_classes/{{class.classID}}" class="btn btn-default">Edit</a></td>
+                            <td><a href="delete_classes/{{class.classID}}" class="btn btn-default">Delete</a></td>
                         </tr>
                             
                         {% endfor %}
                     </tbody>
                 </table>
                 <p>&nbsp;</p>
-                <form method="POST" id="addClass" action="/classes">
+                <form method="POST" id="add_Class" action="/classes">
                     <legend>Add Class</legend>
                     <fieldset class="fields">
                         <label>Class Name</label>
-                        <input type="text" name="name">
+                        <input type="text" name="name" required>
                         <label>Location</label>
-                        <input type="text" name="location">
+                        <input type="text" name="location" required>
                         <label>Time</label>
-                        <input type="text" name="time">
+                        <input type="text" name="time" required>
                         <label>Professor</label>
                         <select name="professor">
                             {% for professor in professors %}
@@ -59,7 +57,7 @@
                             {% endfor %}
                         </select>
                     </fieldset>
-                    <input type="submit" name="addClass" class="btn btn-primary" value="Add New Class"></button>
+                    <input type="submit" name="addClass" class="btn btn-primary" value="Add Class"></input>
                 </form>
                 <table>
                     <thead>
@@ -90,7 +88,7 @@
                         <label>Student</label>
                         <input type="text" name="location">
                     </fieldset>
-                    <button type= "new">Add Student in Class</button>
+                    <button>Add Student in Class</button>
                 </form>
             </section>
         </main>

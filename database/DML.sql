@@ -38,6 +38,10 @@ VALUES (:emailInput, :fnameInput, :lnameInput, :salaryInput, :startInput, :offic
 INSERT INTO Classes (className, classLocation, classTime, professorID)
 VALUES (:nameInput, :locationInput, :timeInput, :professorInput);
 
+--Add a new Class without Professor
+INSERT INTO Classes (className, classLocation, classTime) 
+VALUES (%s, %s, %s);
+
 --Add a new House (dont do this!)
 INSERT INTO Houses (houseName, dormLocation)
 VALUES (:nameInput, :locationInput);
