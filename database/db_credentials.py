@@ -15,5 +15,5 @@
 
 host = 'classmysql.engr.oregonstate.edu'      # MUST BE THIS
 user = 'cs340_gutiealb'       # don't forget the cs340_ prefix
-passwd = 'xxxx'               # should only be 4 digits if default
+passwd = '4429'               # should only be 4 digits if default
 db = 'cs340_gutiealb'                                  

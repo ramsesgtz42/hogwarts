@@ -42,7 +42,7 @@ CREATE OR REPLACE TABLE Classes(
     classLocation varchar(25) NOT NULL,
     classTime varchar(25) NOT NULL,
     professorID int,
-    FOREIGN KEY(professorID) REFERENCES Professors(professorID),
+    FOREIGN KEY(professorID) REFERENCES Professors(professorID) ON DELETE SET NULL,
     PRIMARY KEY(classID)
 );
 

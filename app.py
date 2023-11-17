@@ -4,12 +4,18 @@ import os
 import database.db_connector as db
 
 
+      # Citation for app.py, classes.j2, main.j2, edit_classes.j2
+      # Date: 11/16/23
+      # Based on: OSU CS340 Flask Starter App 
+      # Source URL: https://github.com/osu-cs340-ecampus/flask-starter-app
+
+
 # Configuration
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
 app.config['MYSQL_USER'] = 'cs340_gutiealb'
-app.config['MYSQL_PASSWORD'] = 'xxxx' #last 4 of onid
+app.config['MYSQL_PASSWORD'] = '4429' #last 4 of onid
 app.config['MYSQL_DB'] = 'cs340_gutiealb'
 app.config['MYSQL_CURSORCLASS'] = "DictCursor"
 db_connection = db.connect_to_database()
@@ -72,7 +78,7 @@ def classes():
     
 @app.route("/delete_classes/<int:id>")
 def delete_class(id):
-    # query to delete student-class relationship
+    # query to delete class
     query = "DELETE FROM Classes WHERE classID = '%s'"
     cur = mysql.connection.cursor()
     cur.execute(query, (id,))
@@ -84,12 +90,13 @@ def delete_class(id):
 @app.route("/edit_classes/<int:id>", methods=["POST", "GET"])
 def edit_class(id):
     if request.method == "GET":
-    # mySQL query to get info of class with passed ID
+        # mySQL query to get info of class with passed ID
         query = "SELECT * from Classes WHERE classID = %s" % (id)
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
 
+        #mySQL query to populate Professor dropdown menu
         query2 = "SELECT professorID as ID, CONCAT(Professors.firstName,' ', Professors.lastName) as Professor FROM Professors"
         cur = mysql.connection.cursor()
         cur.execute(query2)

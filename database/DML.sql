@@ -12,6 +12,9 @@ INNER JOIN Houses ON Professors.houseID = Houses.houseID;
 SELECT classID, className as Class, classLocation as Location, classTime as Time, CONCAT(Professors.firstName," ", Professors.lastName) as Professor FROM Classes
 INNER JOIN Professors ON Classes.professorID = Professors.professorID;
 
+-- get Professor information to populate dropdown menu on Classes page
+SELECT Professors.professorID as ID, CONCAT(Professors.firstName," ", Professors.lastName) as Professor FROM Professors;
+
 -- get Point Assignment information to populate Points page
 SELECT assignmentID, numOfPoints, dateAssigned, CONCAT(Professors.firstName," ", Professors.lastName) as Professor, CONCAT(Students.firstName," ", Students.lastName) as Student FROM Point_Assignments
 JOIN Professors ON Point_Assignments.professorID = Professors.professorID
