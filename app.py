@@ -28,6 +28,22 @@ mysql = MySQL(app)
 def root():
     return render_template("main.j2")
 
+@app.route('/houses')
+def houses():
+    return render_template("houses.html")
+
+@app.route('/points')
+def points():
+    return render_template("points.html")
+
+@app.route('/professors')
+def professors():
+    return render_template("professors.html")
+
+@app.route('/students')
+def students():
+    return render_template("students.html")
+
 @app.route('/classes', methods=["POST", "GET"])
 def classes():
     if request.method == "POST":
