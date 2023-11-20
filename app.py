@@ -13,13 +13,8 @@ import database.db_connector as db
 # Configuration
 
 app = Flask(__name__)
-app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
-app.config['MYSQL_USER'] = 'cs340_gutiealb'
-app.config['MYSQL_PASSWORD'] = '4429' #last 4 of onid
-app.config['MYSQL_DB'] = 'cs340_gutiealb'
 app.config['MYSQL_CURSORCLASS'] = "DictCursor"
 db_connection = db.connect_to_database()
-
 mysql = MySQL(app)
 
 # Routes 
@@ -56,17 +51,13 @@ def classes():
 
             if professorID == "":
                 # query if professor field left empty
-                query = "INSERT INTO Classes (className, classLocation, classTime) VALUES (%s, %s, %s)" 
-                cursor = mysql.connection.cursor()
-                cursor.execute(query, (className, classLocation, classTime))
-                mysql.connection.commit()
+                query = "INSERT INTO Classes (className, classLocation, classTime) VALUES (%s, %s, %s)" % (className, classLocation, classTime)
+                cursor = db.execute_query(db_connection=db_connection, query=query)
             
             else:
                 # query for all fields filled
-                query = "INSERT INTO Classes (className, classLocation, classTime, professorID) VALUES (%s, %s, %s, %s)"
-                cursor = mysql.connection.cursor()
-                cursor.execute(query, (className, classLocation, classTime, professorID))
-                mysql.connection.commit()
+                query = "INSERT INTO Classes (className, classLocation, classTime, professorID) VALUES (%s, %s, %s, %s)" % (className, classLocation, classTime, professorID)
+                cursor = db.execute_query(db_connection=db_connection, query=query)
 
             return redirect("/classes")
         
@@ -95,10 +86,8 @@ def classes():
 @app.route("/delete_classes/<int:id>")
 def delete_class(id):
     # query to delete class
-    query = "DELETE FROM Classes WHERE classID = '%s'"
-    cur = mysql.connection.cursor()
-    cur.execute(query, (id,))
-    mysql.connection.commit()
+    query = "DELETE FROM Classes WHERE classID = '%s'" % id
+    db.execute_query(db_connection=db_connection, query=query)
 
     return redirect("/classes") 
 
@@ -108,15 +97,13 @@ def edit_class(id):
     if request.method == "GET":
         # mySQL query to get info of class with passed ID
         query = "SELECT * from Classes WHERE classID = %s" % (id)
-        cur = mysql.connection.cursor()
-        cur.execute(query)
+        cur = db.execute_query(db_connection=db_connection, query=query)
         data = cur.fetchall()
 
         #mySQL query to populate Professor dropdown menu
         query2 = "SELECT professorID as ID, CONCAT(Professors.firstName,' ', Professors.lastName) as Professor FROM Professors"
-        cur = mysql.connection.cursor()
-        cur.execute(query2)
-        professorData = cur.fetchall()
+        cur2 = db.execute_query(db_connection=db_connection, query=query2)
+        professorData = cur2.fetchall()
 
         return render_template("edit_classes.j2", data=data, professors=professorData)
 
@@ -130,16 +117,11 @@ def edit_class(id):
 
             if professorID == "":
                 #query if professor field is empty
-                query = "UPDATE Classes SET className = %s, classLocation = %s, classTime = %s, professorID = NULL WHERE classID = %s"
-                cur = mysql.connection.cursor()
-                cur.execute(query, (className, classLocation, classTime, classID))
-                mysql.connection.commit()
-
+                query = "UPDATE Classes SET className = %s, classLocation = %s, classTime = %s, professorID = NULL WHERE classID = %s" % (className, classLocation, classTime, classID)
+                db.execute_query(db_connection=db_connection, query=query)
             else:
-                query = "UPDATE Classes SET className = %s, classLocation = %s, classTime = %s, professorID = %s WHERE classID = %s"
-                cur = mysql.connection.cursor()
-                cur.execute(query, (className, classLocation, classTime, professorID, classID))
-                mysql.connection.commit()
+                query = "UPDATE Classes SET className = %s, classLocation = %s, classTime = %s, professorID = %s WHERE classID = %s" % (className, classLocation, classTime, professorID, classID)
+                db.execute_query(db_connection=db_connection, query=query)
             
             return redirect("/classes")
 
@@ -147,4 +129,4 @@ def edit_class(id):
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 9115)) 
-    app.run(port=port, debug=True) 
+    app.run(port=port, debug=False) 
