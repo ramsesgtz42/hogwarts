@@ -51,12 +51,12 @@ def classes():
 
             if professorID == "":
                 # query if professor field left empty
-                query = "INSERT INTO Classes (className, classLocation, classTime) VALUES (%s, %s, %s)" % (className, classLocation, classTime)
+                query = "INSERT INTO Classes (className, classLocation, classTime) VALUES ('%s', '%s', '%s')" % (className, classLocation, classTime)
                 cursor = db.execute_query(db_connection=db_connection, query=query)
             
             else:
                 # query for all fields filled
-                query = "INSERT INTO Classes (className, classLocation, classTime, professorID) VALUES (%s, %s, %s, %s)" % (className, classLocation, classTime, professorID)
+                query = "INSERT INTO Classes (className, classLocation, classTime, professorID) VALUES ('%s', '%s', '%s', '%s')" % (className, classLocation, classTime, professorID)
                 cursor = db.execute_query(db_connection=db_connection, query=query)
 
             return redirect("/classes")
@@ -96,7 +96,7 @@ def delete_class(id):
 def edit_class(id):
     if request.method == "GET":
         # mySQL query to get info of class with passed ID
-        query = "SELECT * from Classes WHERE classID = %s" % (id)
+        query = "SELECT * from Classes WHERE classID = '%s'" % (id)
         cur = db.execute_query(db_connection=db_connection, query=query)
         data = cur.fetchall()
 
@@ -117,10 +117,10 @@ def edit_class(id):
 
             if professorID == "":
                 #query if professor field is empty
-                query = "UPDATE Classes SET className = %s, classLocation = %s, classTime = %s, professorID = NULL WHERE classID = %s" % (className, classLocation, classTime, classID)
+                query = "UPDATE Classes SET className = '%s', classLocation = '%s', classTime = '%s', professorID = NULL WHERE classID = '%s'" % (className, classLocation, classTime, classID)
                 db.execute_query(db_connection=db_connection, query=query)
             else:
-                query = "UPDATE Classes SET className = %s, classLocation = %s, classTime = %s, professorID = %s WHERE classID = %s" % (className, classLocation, classTime, professorID, classID)
+                query = "UPDATE Classes SET className = '%s', classLocation = '%s', classTime = '%s', professorID = '%s' WHERE classID = '%s'" % (className, classLocation, classTime, professorID, classID)
                 db.execute_query(db_connection=db_connection, query=query)
             
             return redirect("/classes")
