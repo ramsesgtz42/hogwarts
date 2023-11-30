@@ -72,7 +72,77 @@ def edit_house(id):
 
 @app.route('/points', methods=["POST", "GET"])
 def points():
-    return render_template("points.html")
+    if request.method == "POST":
+        if request.form.get("addPoints"):
+            numOfPoints = request.form["numOfPoints"]
+            dateAssigned = request.form["dateAssigned"]
+            professorID = request.form["professorID"]
+            studentID = request.form["studentID"]
+
+            query = "INSERT INTO Point_Assignments (numOfPoints, dateAssigned, professorID, studentID) VALUES ('%s', '%s', '%s', '%s')" % (numOfPoints, dateAssigned, professorID, studentID)
+            db.execute_query(db_connection, query)
+
+        return redirect("/points")
+    
+    if request.method == "GET":
+        #query to get all Point Assignment data
+        query = 'SELECT assignmentID, numOfPoints, dateAssigned, CONCAT(Professors.firstName," ", Professors.lastName) as Professor, CONCAT(Students.firstName," ", Students.lastName) as Student FROM Point_Assignments JOIN Professors ON Point_Assignments.professorID = Professors.professorID JOIN Students ON Point_Assignments.studentID = Students.studentID'
+        cursor = db.execute_query(db_connection, query)
+        results = cursor.fetchall()
+
+        #query to select professor data for dropdown menu
+        query3 = 'SELECT professorID, CONCAT(firstName," ", lastName) as Professor FROM Professors'
+        cursor3 = db.execute_query(db_connection, query3)
+        results3 = cursor3.fetchall()
+
+        #query to select student data for dropdown menu
+        query2 = 'SELECT studentID, CONCAT(firstName," ", lastName) as Student FROM Students'
+        cursor2 = db.execute_query(db_connection, query2)
+        results2 = cursor2.fetchall()
+
+    return render_template("points.html", points=results, professors=results3, students=results2)
+
+@app.route('/delete_points/<int:id>')
+def delete_points(id):
+    #query to delete Point Assignment
+    query = "DELETE FROM Point_Assignments WHERE assignmentID = '%s'" % (id)
+    db.execute_query(db_connection, query)
+    return redirect("/points")
+
+@app.route('/edit_points/<int:id>', methods=["POST", "GET"])
+def edit_points(id):
+    if request.method == "POST":
+        if request.form.get("Edit_Points"):
+            assignmentID = request.form["assignmentID"]
+            numOfPoints = request.form["numOfPoints"]
+            dateAssigned = request.form["dateAssigned"]
+            professorID = request.form["professorID"]
+            studentID = request.form["studentID"]
+
+            
+            query = "UPDATE Point_Assignments SET numOfPoints = '%s', dateAssigned = '%s', professorID = '%s', studentID = '%s' WHERE assignmentID = '%s'" % (numOfPoints, dateAssigned, professorID, studentID, assignmentID)
+            db.execute_query(db_connection, query)
+            
+            return redirect("/points")
+        
+    if request.method == "GET":
+        # mySQL query to get info of class with passed ID
+        query = "SELECT * from Point_Assignments WHERE assignmentID = '%s'" % (id)
+        cur = db.execute_query(db_connection, query)
+        data = cur.fetchall()
+
+        #query to select professor data for dropdown menu
+        query3 = 'SELECT professorID, CONCAT(firstName," ", lastName) as Professor FROM Professors'
+        cursor3 = db.execute_query(db_connection, query3)
+        results3 = cursor3.fetchall()
+
+        #query to select student data for dropdown menu
+        query2 = 'SELECT studentID, CONCAT(firstName," ", lastName) as Student FROM Students'
+        cursor2 = db.execute_query(db_connection, query2)
+        results2 = cursor2.fetchall()
+
+    return render_template("edit_points.j2", data=data, professors=results3, students=results2)
+
 
 @app.route('/professors', methods=["POST", "GET"])
 def professors():

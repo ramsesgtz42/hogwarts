@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="static/css/style.css">
+    <meta charset="utf-8">
+    <title>Edit Points</title>
+    </head>
+    <body>
+        <header>
+            <h1>Hogwarts Point Assignment</h1>
+            <h2>Group 108</h2>
+        </header>
+        <main>
+            <section>
+                <form id="editPoints" action="/edit_points/{{data[0].assignmentID}}" method="POST">
+                    <legend>Edit Point Assignment</legend>
+                    <fieldset>
+                        <input type="hidden" value="{{data[0].assignmentID}}" class="form-control" id="assignmentID" name="assignmentID" required>
+
+                        <label>Points</label>
+                        <input type="number" value="{{data[0].numOfPoints}}" class="form-control" id="numOfPoints" name="numOfPoints" required>
+
+                        <label>Date Assigned</label>
+                        <input type="date" value="{{data[0].dateAssigned}}" class="form-control" id="dateAssigned" name="dateAssigned" required>
+
+                        <label>Professor</label>
+                        <select class="form-control" id="professor" name="professor" placeholder="" required>
+                            <option value="">&nbsp;</option>
+                            {% for professor in professors %}
+                                {% if professor['professorID'] == data[0].professorID %}
+                                    <option value="{{professor['professorID']}}" selected> {{professor['Professor']}}</option>
+                                {% else %}
+                                    <option value="{{professor['professorID']}}"> {{professor['Professor']}}</option>
+                                {% endif %}
+
+                            {% endfor %}
+                        </select>
+
+                        <label>Student</label>
+                        <select class="form-control" id="student" name="student" placeholder="" required>
+                            <option value="">&nbsp;</option>
+                            {% for student in students %}
+                                {% if student['studentID'] == data[0].studentID %}
+                                    <option value="{{student['studentID']}}" selected> {{student['Student']}}</option>
+                                {% else %}
+                                    <option value="{{student['studentID']}}"> {{student['Student']}}</option>
+                                {% endif %}
+
+                            {% endfor %}
+                        </select>
+                    </fieldset>
+                    <input type="submit" value="Edit Point Assignment" name="Edit_Points" class="btn btn-primary">
+                    <a href='/points'><input class="btn" type="button" value="Cancel"></a>
+                </form>
+            </section>
+        </main>
+    </body>
+</html>
