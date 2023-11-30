@@ -31,13 +31,13 @@ def houses():
 def points():
     return render_template("points.html")
 
-@app.route('/professors')
+@app.route('/professors', methods=["POST", "GET"])
 def professors():
     if request.method == "POST":
         if request.form.get("addProfessor"):
             profEmail = request.form["email"]
             firstName = request.form["fname"]
-            lastName = request.form["lName"]
+            lastName = request.form["lname"]
             salary = request.form["salary"]
             startDate = request.form["startdate"]
             officeLocation = request.form["officelocation"]
@@ -47,6 +47,7 @@ def professors():
         if houseID == "":
             #query if professor is Houseless
             query = "INSERT INTO Professors (profEmail, firstName, lastName, salary, startDate, officeLocation, isHeadOfHouse) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')" % (profEmail, firstName, lastName, salary, startDate, officeLocation, isHeadOfHouse)
+            db.execute_query(db_connection, query)
         else:
             #query if all fields are filled
             query = "INSERT INTO Professors (profEmail, firstName, lastName, salary, startDate, officeLocation, isHeadOfHouse, houseID) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')" % (profEmail, firstName, lastName, salary, startDate, officeLocation, isHeadOfHouse, houseID)
@@ -99,7 +100,14 @@ def edit_professor(id):
                 #query if professor is Houseless
                 query = "UPDATE Professors SET profEmail = '%s', firstName = '%s', lastName = '%s', salary = '%s', startDate = '%s', officeLocation = '%s', endDate = '%s', isHeadOfHouse = '%s', houseID = NULL WHERE professorID = '%s'" % (profEmail, firstName, lastName, salary, startDate, officeLocation, endDate, isHeadOfHouse, professorID)
                 db.execute_query(db_connection, query)
-
+            elif endDate == "":
+                #query if enddate is left Null
+                query = "UPDATE Professors SET profEmail = '%s', firstName = '%s', lastName = '%s', salary = '%s', startDate = '%s', officeLocation = '%s', endDate = NULL, isHeadOfHouse = '%s', houseID = '%s' WHERE professorID = '%s'" % (profEmail, firstName, lastName, salary, startDate, officeLocation, isHeadOfHouse, houseID, professorID)
+                db.execute_query(db_connection, query)
+            elif houseID and endDate == "":
+                #query if houseless and enddate left Null:
+                query = "UPDATE Professors SET profEmail = '%s', firstName = '%s', lastName = '%s', salary = '%s', startDate = '%s', officeLocation = '%s', endDate = NULL, isHeadOfHouse = '%s', houseID = NULL WHERE professorID = '%s'" % (profEmail, firstName, lastName, salary, startDate, officeLocation, isHeadOfHouse, professorID)
+                db.execute_query(db_connection, query)
             else:
                 query = "UPDATE Professors SET profEmail = '%s', firstName = '%s', lastName = '%s', salary = '%s', startDate = '%s', officeLocation = '%s', endDate = '%s', isHeadOfHouse = '%s', houseID = '%s' WHERE professorID = '%s'" % (profEmail, firstName, lastName, salary, startDate, officeLocation, endDate, isHeadOfHouse, houseID, professorID)
                 db.execute_query(db_connection, query)
@@ -166,7 +174,6 @@ def delete_class(id):
     # query to delete class
     query = "DELETE FROM Classes WHERE classID = '%s'" % (id)
     db.execute_query(db_connection, query)
-
     return redirect("/classes") 
 
 
