@@ -10,7 +10,7 @@ SET AUTOCOMMIT = 0;
 
 -- Creates Houses Table
 CREATE OR REPLACE TABLE Houses (
-    houseID int UNIQUE NOT NULL,
+    houseID int AUTO_INCREMENT UNIQUE NOT NULL,
     houseName varchar(15) UNIQUE NOT NULL,
     dormLocation varchar(30) UNIQUE NOT NULL,
     housePoints int NOT NULL DEFAULT 0,

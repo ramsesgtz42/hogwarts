@@ -25,7 +25,50 @@ def root():
 
 @app.route('/houses', methods=["POST", "GET"])
 def houses():
-    return render_template("houses.html")
+    if request.method == "POST":
+        if request.form.get("addHouse"):
+            houseName = request.form["houseName"]
+            dormLocation = request.form["dormLocation"]
+
+            query = "INSERT INTO Houses (houseName, dormLocation) VALUES ('%s', '%s')" % (houseName, dormLocation)
+            db.execute_query(db_connection, query)
+        
+        return redirect("/houses")
+        
+    if request.method == "GET":
+        #query to fill houses table data
+        query = "SELECT houseID, houseName, dormLocation FROM Houses"
+        cursor = db.execute_query(db_connection, query)
+        results = cursor.fetchall()
+
+    return render_template("houses.html", houses=results)
+
+@app.route('/delete_houses/<int:id>')
+def delete_house(id):
+    #query to delete house
+    query = "DELETE FROM Houses WHERE houseID = '%s'" % (id)
+    db.execute_query(db_connection, query)
+    return redirect("/houses")
+
+@app.route('/edit_houses/<int:id>', methods=["POST", "GET"])
+def edit_house(id):
+    if request.method == "POST":
+        if request.form.get("Edit_House"):
+            houseID = request.form["houseID"]
+            houseName = request.form["houseName"]
+            dormLocation = request.form["dormLocation"]
+
+            #query to update House information
+            query = "UPDATE Houses SET houseName = '%s', dormLocation = '%s' WHERE houseID = '%s'" % (houseName, dormLocation, houseID)
+            db.execute_query(db_connection, query)
+            return redirect("/houses")
+        
+    if request.method == "GET":
+        query = "SELECT * from Houses WHERE houseID = '%s'" % (id)
+        cursor = db.execute_query(db_connection, query)
+        data = cursor.fetchall()
+
+    return render_template("edit_houses.j2", data=data)
 
 @app.route('/points', methods=["POST", "GET"])
 def points():
@@ -70,18 +113,6 @@ def professors():
 
 @app.route("/edit_professors/<int:id>", methods=["POST", "GET"])
 def edit_professor(id):
-    if request.method == "GET":
-        #query to get professor's info
-        query = "SELECT * from Professors WHERE professorID = '%s'" % (id)
-        cursor = db.execute_query(db_connection, query)
-        data = cursor.fetchall()
-
-        #query to populate house dropdown menu
-        query = "SELECT houseID, houseName from Houses"
-        cursor = db.execute_query(db_connection, query)
-        houses = cursor.fetchall()
-
-        return render_template("edit_professors.j2", data=data, Houses=houses)
     
     if request.method == "POST":
         if request.form.get("Edit_Professor"):
@@ -113,6 +144,19 @@ def edit_professor(id):
                 db.execute_query(db_connection, query)
             
             return redirect("/professors")
+        
+    if request.method == "GET":
+        #query to get professor's info
+        query = "SELECT * from Professors WHERE professorID = '%s'" % (id)
+        cursor = db.execute_query(db_connection, query)
+        data = cursor.fetchall()
+
+        #query to populate house dropdown menu
+        query = "SELECT houseID, houseName from Houses"
+        cursor = db.execute_query(db_connection, query)
+        houses = cursor.fetchall()
+
+    return render_template("edit_professors.j2", data=data, Houses=houses)
 
 @app.route("/delete_professors/<int:id>")
 def delete_professor(id):
@@ -240,19 +284,6 @@ def delete_class(id):
 
 @app.route("/edit_classes/<int:id>", methods=["POST", "GET"])
 def edit_class(id):
-    if request.method == "GET":
-        # mySQL query to get info of class with passed ID
-        query = "SELECT * from Classes WHERE classID = '%s'" % (id)
-        cur = db.execute_query(db_connection, query)
-        data = cur.fetchall()
-
-        #mySQL query to populate Professor dropdown menu
-        query2 = "SELECT professorID as ID, CONCAT(Professors.firstName,' ', Professors.lastName) as Professor FROM Professors"
-        cur2 = db.execute_query(db_connection, query2)
-        professorData = cur2.fetchall()
-
-        return render_template("edit_classes.j2", data=data, professors=professorData)
-
     if request.method == "POST":
         if request.form.get("Edit_Class"):
             classID = request.form["classID"]
@@ -270,6 +301,21 @@ def edit_class(id):
                 db.execute_query(db_connection, query)
             
             return redirect("/classes")
+        
+    if request.method == "GET":
+        # mySQL query to get info of class with passed ID
+        query = "SELECT * from Classes WHERE classID = '%s'" % (id)
+        cur = db.execute_query(db_connection, query)
+        data = cur.fetchall()
+
+        #mySQL query to populate Professor dropdown menu
+        query2 = "SELECT professorID as ID, CONCAT(Professors.firstName,' ', Professors.lastName) as Professor FROM Professors"
+        cur2 = db.execute_query(db_connection, query2)
+        professorData = cur2.fetchall()
+
+    return render_template("edit_classes.j2", data=data, professors=professorData)
+
+
 
 # Listener
 

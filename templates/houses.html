@@ -22,77 +22,35 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>House Name</th>
-                            <th>Location</th>
-                            <th>Points</th>
-                            <th>Edit House</th>
-                            <th>Delete House</th>
+                            {% for key in houses[0].keys() %}
+                            <th>{{ key }}</th>
+                            {% endfor %}
                         </tr>
                     </thead>
                     <tbody>
+                    {% for house in houses %}
                         <tr>
-                            <td>Gryffindor</td>
-                            <td>Gryffindor Tower</td>
-                            <td>0</td>
-                            <td>
-                                <button type="edit">Edit</button>
-                            </td>
-                            <td>
-                                <button type="delete">Delete</button>
-                            </td>
+                         {% for key in house.keys() %}
+                            <td>{{house[key]}}</td>
+                            {% endfor %}
+                            <td><a href="edit_houses/{{house.houseID}}" class="btn btn-default">Edit</a></td>
+                            <td><a href="delete_houses/{{house.houseID}}" class="btn btn-default">Delete</a></td>
                         </tr>
-                        <tr>
-                            <td>Hufflepuff</td>
-                            <td>Hufflepuff Basement</td>
-                            <td>0</td>
-                            <td>
-                                <button type="edit">Edit</button>
-                            </td>
-                            <td>
-                                <button type="delete">Delete</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Ravenclaw</td>
-                            <td>Ravenclaw Tower</td>
-                            <td>0</td>
-                            <td>
-                                <button type="edit">Edit</button>
-                            </td>
-                            <td>
-                                <button type="delete">Delete</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Slytherin</td>
-                            <td>Slytherin Dungeon</td>
-                            <td>0</td>
-                            <td>
-                                <button type="edit">Edit</button>
-                            </td>
-                            <td>
-                                <button type="delete">Delete</button>
-                            </td>
-                        </tr>
-
+                        {% endfor %}
                     </tbody>
                 </table>
                 <p>&nbsp;</p>
-                <form method="POST" id="addClass">
+                <form method="POST" id="add_House" action="/houses">
                     <legend>Add House</legend>
                     <fieldset class="fields">
                         <label>House Name</label>
-                        <input type="text" name="name">
+                        <input type="text" name="houseName" required>
                         <label>Location</label>
-                        <input type="text" name="location">
-                        <label>Points</label>
-                        <input type="text" name="points">
+                        <input type="text" name="dormLocation" required>
                     </fieldset>
-                    <button type= "new">Add New House</button>
+                    <input type= "submit" name="addHouse" class="btn btn-primary" value="Add House"></input>
                 </form>
-
             </section>
         </main>
     </body>
-
 </html>
