@@ -5,7 +5,7 @@ SELECT studentID, firstName, lastName, studEmail, classYear, Houses.houseName as
 INNER JOIN Houses ON Students.houseID = Houses.houseID;
 
 -- get Professor information to populate Professors page
-SELECT professorID, firstName, lastName, profEmail, IFNULL(Houses.houseName, "Houseless") as house FROM Professors
+SELECT professorID as ID, CONCAT(firstName," ", lastName) as Name, profEmail as Email, officeLocation as Office, startDate, endDate, salary, IFNULL(Houses.houseName, "Houseless") as house, isHeadofHouse as House Head FROM Professors 
 INNER JOIN Houses ON Professors.houseID = Houses.houseID;
 
 -- get Classes information to populate Classes page

@@ -33,7 +33,85 @@ def points():
 
 @app.route('/professors')
 def professors():
-    return render_template("professors.html")
+    if request.method == "POST":
+        if request.form.get("addProfessor"):
+            profEmail = request.form["email"]
+            firstName = request.form["fname"]
+            lastName = request.form["lName"]
+            salary = request.form["salary"]
+            startDate = request.form["startdate"]
+            officeLocation = request.form["officelocation"]
+            isHeadOfHouse = request.form["isheadofhouse"]
+            houseID = request.form["house"]
+
+        if houseID == "":
+            #query if professor is Houseless
+            query = "INSERT INTO Professors (profEmail, firstName, lastName, salary, startDate, officeLocation, isHeadOfHouse) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')" % (profEmail, firstName, lastName, salary, startDate, officeLocation, isHeadOfHouse)
+        else:
+            #query if all fields are filled
+            query = "INSERT INTO Professors (profEmail, firstName, lastName, salary, startDate, officeLocation, isHeadOfHouse, houseID) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')" % (profEmail, firstName, lastName, salary, startDate, officeLocation, isHeadOfHouse, houseID)
+            db.execute_query(db_connection, query)
+        
+        return redirect("/professors")
+
+    if request.method == "GET":
+        #query to get all professor data
+        query = 'SELECT professorID as ID, CONCAT(firstName," ", lastName) as Name, profEmail as Email, officeLocation as Office, startDate, endDate, salary, IFNULL(Houses.houseName, "Houseless") as house, isHeadofHouse as "Head of House" FROM Professors INNER JOIN Houses ON Professors.houseID = Houses.houseID'
+        cursor = db.execute_query(db_connection, query)
+        results = cursor.fetchall()
+
+        #query to fill house dropdown menu data when adding professor
+        query2 = 'SELECT houseID, houseName, dormLocation as Dorm, housePoints FROM Houses'
+        cursor = db.execute_query(db_connection, query2)
+        houses = cursor.fetchall()
+
+        return render_template("professors.html", Professors=results, Houses=houses)
+
+@app.route("/edit_professors/<int:id>", methods=["POST", "GET"])
+def edit_professor(id):
+    if request.method == "GET":
+        #query to get professor's info
+        query = "SELECT * from Professors WHERE professorID = '%s'" % (id)
+        cursor = db.execute_query(db_connection, query)
+        data = cursor.fetchall()
+
+        #query to populate house dropdown menu
+        query = "SELECT houseID, houseName from Houses"
+        cursor = db.execute_query(db_connection, query)
+        houses = cursor.fetchall()
+
+        return render_template("edit_professors.j2", data=data, Houses=houses)
+    
+    if request.method == "POST":
+        if request.form.get("Edit_Professor"):
+            professorID = request.form["professorID"]
+            profEmail = request.form["profEmail"]
+            firstName = request.form["firstName"]
+            lastName = request.form["lastName"]
+            salary = request.form["salary"]
+            startDate = request.form["startDate"]
+            officeLocation = request.form["officeLocation"]
+            endDate = request.form["endDate"]
+            isHeadOfHouse = request.form["isHeadOfHouse"]
+            houseID = request.form["houseID"]
+
+            if houseID == "":
+                #query if professor is Houseless
+                query = "UPDATE Professors SET profEmail = '%s', firstName = '%s', lastName = '%s', salary = '%s', startDate = '%s', officeLocation = '%s', endDate = '%s', isHeadOfHouse = '%s', houseID = NULL WHERE professorID = '%s'" % (profEmail, firstName, lastName, salary, startDate, officeLocation, endDate, isHeadOfHouse, professorID)
+                db.execute_query(db_connection, query)
+
+            else:
+                query = "UPDATE Professors SET profEmail = '%s', firstName = '%s', lastName = '%s', salary = '%s', startDate = '%s', officeLocation = '%s', endDate = '%s', isHeadOfHouse = '%s', houseID = '%s' WHERE professorID = '%s'" % (profEmail, firstName, lastName, salary, startDate, officeLocation, endDate, isHeadOfHouse, houseID, professorID)
+                db.execute_query(db_connection, query)
+            
+            return redirect("/professors")
+
+@app.route("/delete_professors/<int:id>")
+def delete_professor(id):
+    #query to  delete professor
+    query = "DELETE FROM Professors WHERE professorID = '%s'" % (id)
+    db.execute_query(db_connection, query)
+    return redirect("/professors")
 
 @app.route('/students')
 def students():
@@ -86,7 +164,7 @@ def classes():
 @app.route("/delete_classes/<int:id>")
 def delete_class(id):
     # query to delete class
-    query = "DELETE FROM Classes WHERE classID = '%s'" % id
+    query = "DELETE FROM Classes WHERE classID = '%s'" % (id)
     db.execute_query(db_connection, query)
 
     return redirect("/classes") 

@@ -1,0 +1,82 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="static/css/style.css">
+    <meta charset="utf-8">
+    <title>Edit Professor</title>
+    </head>
+    <body>
+        <header>
+            <h1>Hogwarts Professors</h1>
+            <h2>Group 108</h2>
+        </header>
+        <main>
+            <section>
+                <table>
+                    <caption> Editing Professor: </caption>
+                    <thead>
+                        <tr>
+                            {% for key in data[0].keys() %}
+                            <th scope="col" data-field="{{key}}" data-filter-control="input">{{key}}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for item in data %}
+                        <tr>
+                            {%for key in item.keys()%}
+                            <td>{{item[key]}}</td> {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+            <section>
+                <form id="editProfessor" action="/edit_professors/{{data[0].professorID}}" method="POST">
+                    <legend>Edit Professor</legend>
+                    <fieldset>
+                        <input type="hidden" value="{{data[0].professorID}}" class="form-control" id="classID" name="professorID" required>
+
+                        <label>Email</label>
+                        <input type="text" value="{{data[0].profEmail}}" class="form-control" id="profEmail" name="profEmail" required>
+
+                        <label>First Name</label>
+                        <input type="text" value="{{data[0].firstName}}" class="form-control" id="firstName" name="firstName" required>
+
+                        <label>Last Name</label>
+                        <input type="text" value="{{data[0].lastName}}" class="form-control" id="lastName" name="lastName" required>
+
+                        <label>Salary</label>
+                        <input type="text" value="{{data[0].salary}}" class="form-control" id="salary" name="salary" required>
+
+                        <label>Start Date</label>
+                        <input type="Date" value="{{data[0].startDate}}" class="form-control" id="startDate" name="startDate" required>
+                        
+                        <label>Office</label>
+                        <input type="text" value="{{data[0].officeLocation}}" class="form-control" id="officeLocation" name="officeLocation" required>
+
+                        <label>End Date</label>
+                        <input type="Date" value="{{data[0].endDate}}" class="form-control" id="endDate" name="endDate" placeholder="">
+
+                        <label>Head of House</label>
+                        <select class="form-control" id="isHeadOfHouse" name="isHeadOfHouse">
+
+                        <label>House</label>
+                        <select class="form-control" id="houseID" name="houseID" placeholder="">
+                            <option value="">&nbsp;</option>
+                            {% for house in Houses %}
+                                {% if house['houseID'] == data[0].houseID %}
+                                    <option value="{{house['houseID']}}" selected> {{house['houseName']}}</option>
+                                {% else %}
+                                    <option value="{{house['houseID']}}"> {{house['houseName']}}</option>
+                                {% endif %}
+
+                            {% endfor %}
+                        </select>
+                    </fieldset>
+                    <input type="submit" value="Edit Professor" name="Edit_Professor" class="btn btn-primary">
+                    <a href='/professors'><input class="btn" type="button" value="Cancel"></a>
+                </form>
+            </section>
+        </main>
+    </body>
+</html>
