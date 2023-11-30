@@ -1,0 +1,79 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="static/css/style.css">
+    <meta charset="utf-8">
+    <title>Edit Class</title>
+    </head>
+    <body>
+        <header>
+            <h1>Hogwarts Students</h1>
+            <h2>Group 108</h2>
+        </header>
+        <main>
+            <section>
+                <table>
+                    <caption> Editing Student: </caption>
+                    <thead>
+                        <tr>
+                            {% for key in data[0].keys() %}
+                            <th scope="col" data-field="{{key}}" data-filter-control="input">{{key}}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for item in data %}
+                        <tr>
+                            {%for key in item.keys()%}
+                            <td>{{item[key]}}</td> {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+            <section>
+                <form id="editStudent" action="/edit_students/{{data[0].studentID}}" method="POST">
+                    <legend>Edit Student</legend>
+                    <fieldset>
+                        <input type="hidden" value="{{data[0].studentID}}" class="form-control" id="studentID" name="studentID" required>
+
+                        <label>First Name</label>
+                        <input type="text" value="{{data[0].firstName}}" class="form-control" id="firstName" name="firstName" required>
+
+                        <label>Last Name</label>
+                        <input type="text" value="{{data[0].lastName}}" class="form-control" id="lastName" name="lastName" required>
+
+                        <label>Email</label>
+                        <input type="email" value="{{data[0].studEmail}}" class="form-control" id="studEmail" name="studEmail" required>
+
+                        <label>Class Year</label>
+                        <input type="number" value="{{data[0].classYear}}" class="form-control" id="classYear" name="classYear" required>
+
+                        <label>Prefect</label>
+                        <select class="form-control" id="isPrefect" name="isPrefect">
+                            <option value="">&nbsp;</option>
+                            {% if data[0].isPrefect == "1" %}
+                                <option value="1" selected>Yes</option>
+                                <option value="0">No</option>
+                            {% else %}
+                                <option value="1">Yes</option>
+                                <option value="0" selected>No</option>
+                            {% endif %}
+                        </select>
+
+                        <label>House</label>
+                        <select class="form-control" id="houseID" name="houseID">
+                            {% for house in houses %}
+                                {% if house['houseID'] == data[0].houseID %}
+                                    <option value="{{house['houseID']}}" selected> {{house['houseName']}}</option>
+                                {% else %}
+                                    <option value="{{house['houseID']}}"> {{house['houseName']}}</option>
+                                {% endif %}
+                            {% endfor %}
+                    </fieldset>
+                    <input type="submit" value="Edit Student" name="Edit_Student" class="btn btn-primary">
+                    <a href='/students'><input class="btn" type="button" value="Cancel"></a>
+                </form>
+            </section>
+        </main>
+    </body>
+</html>

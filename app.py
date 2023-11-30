@@ -23,11 +23,11 @@ mysql = MySQL(app)
 def root():
     return render_template("main.j2")
 
-@app.route('/houses')
+@app.route('/houses', methods=["POST", "GET"])
 def houses():
     return render_template("houses.html")
 
-@app.route('/points')
+@app.route('/points', methods=["POST", "GET"])
 def points():
     return render_template("points.html")
 
@@ -62,7 +62,7 @@ def professors():
         results = cursor.fetchall()
 
         #query to fill house dropdown menu data when adding professor
-        query2 = 'SELECT houseID, houseName, dormLocation as Dorm, housePoints FROM Houses'
+        query2 = 'SELECT houseID, houseName FROM Houses'
         cursor = db.execute_query(db_connection, query2)
         houses = cursor.fetchall()
 
@@ -121,9 +121,72 @@ def delete_professor(id):
     db.execute_query(db_connection, query)
     return redirect("/professors")
 
-@app.route('/students')
+@app.route('/students', methods=["POST", "GET"])
 def students():
-    return render_template("students.html")
+    if request.method == "POST":
+        if request.form.get("addStudent"):
+            studEmail = request.form["studEmail"]
+            firstName = request.form["firstName"]
+            lastName = request.form["lastName"]
+            classYear = request.form["classYear"]
+            houseID = request.form["houseID"]
+            isPrefect = request.form["isPrefect"]
+
+            query = "INSERT INTO Students (studEmail, firstName, lastName, classYear, houseID, isPrefect) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')" % (studEmail, firstName, lastName, classYear, houseID, isPrefect)
+            db.execute_query(db_connection, query)
+
+        return redirect("/students")
+
+    if request.method == "GET":
+        #query to fill student table
+        query = 'SELECT studentID, firstName, lastName, studEmail as Email, classYear, Houses.houseName as House FROM Students INNER JOIN Houses ON Students.houseID = Houses.houseID'
+        cursor = db.execute_query(db_connection, query)
+        results = cursor.fetchall()
+
+        #query to fill house dropdown menu for adding new student:
+        query = 'SELECT houseID, houseName FROM Houses'
+        cursor = db.execute_query(db_connection, query)
+        houses = cursor.fetchall()
+
+    return render_template("students.html", students=results, houses=houses)
+
+@app.route("/edit_students/<int:id>", methods=["POST", "GET"])
+def edit_student(id):
+    if request.method == "GET":
+        #query to get students information
+        query = "SELECT * from Students WHERE studentID = '%s'" % (id)
+        cursor = db.execute_query(db_connection, query)
+        data = cursor.fetchall()
+
+        #query to get house information for dropdown menu
+        query = "SELECT houseID, houseName from Houses"
+        cursor = db.execute_query(db_connection, query)
+        houses = cursor.fetchall()
+
+        return render_template("edit_students.j2", data=data, houses=houses)
+    
+    if request.method == "POST":
+        if request.form.get("Edit_Student"):
+            studentID = request.form["studentID"]
+            firstName = request.form["firstName"]
+            lastName = request.form["lastName"]
+            studEmail = request.form["studEmail"]
+            classYear = request.form["classYear"]
+            isPrefect = request.form["isPrefect"]
+            houseID = request.form["houseID"]
+
+            query = "UPDATE Students SET firstName = '%s', lastName = '%s', studEmail = '%s', classYear = '%s', isPrefect = '%s', houseID = '%s' WHERE studentID = '%s'" % (firstName, lastName, studEmail, classYear, isPrefect, houseID, studentID)
+            db.execute_query(db_connection, query)
+
+            return redirect("/students")
+
+@app.route('/delete_students/<int:id>')
+def delete_student(id):
+    #query to delete student
+    query = "DELETE FROM Students WHERE studentID = '%s'" % (id)
+    db.execute_query(db_connection, query)
+    return redirect("/students")
+
 
 @app.route('/classes', methods=["POST", "GET"])
 def classes():
@@ -164,10 +227,8 @@ def classes():
         cursor2 = db.execute_query(db_connection, query2)
         results2 = cursor2.fetchall()
         return render_template("classes.j2", Classes=results, student_class=results2, professors = results3)
-    
-        
-        
-    
+            
+            
     
 @app.route("/delete_classes/<int:id>")
 def delete_class(id):
