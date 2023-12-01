@@ -1,5 +1,75 @@
-table, th, td {
-    border: 1px solid black;
+nav {
+  font-size: 25px;
+}
+
+a:hover {
+  color:rgb(152, 189, 231);
+}
+
+a {
+  color: midnightblue;
+}
+  
+  table {
+  border: 1px solid black;
+  margin: auto;
   }
 
+.pages {
+  font-size: 20px;
+  font-style: bold;
+  font-weight: bold;
+  font-family: Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+h2.content-width {
+  font-size: small;
+  font-weight: 200
+}
+
+
+
+header {
+  color: black;
+  height: 80px;
+}
+
+  th {
+    border: 1px solid black;
+    font-family: Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    background-color: midnightblue;
+  }
+
+  td {
+    border: 1px solid black;
+    text-align: center;
+    padding: 5px;
+  }
+
+tr:nth-child(even) {background-color: #f2f2f2;}
   
+tr:hover {background-color: rgb(152, 189, 231);}
+
+.content-width {
+    text-align: center;
+    max-width: 80ch;
+    width: 100%;
+    margin: auto;
+    width: 80%;
+  }
+
+
+  img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    border-radius: 8px;
+  }
+
+*{
+  font-family:Cochin,Georgia, Times, 'Times New Roman', serif;
+}
