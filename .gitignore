@@ -8,3 +8,5 @@ database/db_connector.py
 database/db_credentials.py
 database/__pycache__
 .env
+/Lib
+/Scripts
