@@ -2,4 +2,9 @@ table, th, td {
     border: 1px solid black;
   }
 
+.content-width {
+    max-width: 70ch;
+    width: calc(100% - 4rem);
+    margin: 0 auto;
+}
   
