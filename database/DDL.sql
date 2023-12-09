@@ -10,10 +10,9 @@ SET AUTOCOMMIT = 0;
 
 -- Creates Houses Table
 CREATE OR REPLACE TABLE Houses (
-    houseID int UNIQUE NOT NULL,
+    houseID int AUTO_INCREMENT UNIQUE NOT NULL,
     houseName varchar(15) UNIQUE NOT NULL,
     dormLocation varchar(30) UNIQUE NOT NULL,
-    housePoints int NOT NULL DEFAULT 0,
     PRIMARY KEY (houseID)
 );
 
@@ -56,7 +55,7 @@ CREATE OR REPLACE TABLE Students (
     classYear TINYINT(7) NOT NULL,
     isPrefect TINYINT(1) DEFAULT 0,
     houseID int NOT NULL,
-    FOREIGN KEY (houseID) REFERENCES Houses(houseID),
+    FOREIGN KEY (houseID) REFERENCES Houses(houseID) ON DELETE SET NULL,
     PRIMARY KEY (studentID)
 );
 
@@ -66,10 +65,10 @@ CREATE OR REPLACE TABLE Point_Assignments(
     assignmentID int UNIQUE NOT NULL AUTO_INCREMENT,
     numOfPoints int NOT NULL,
     dateAssigned DATE NOT NULL,
-    professorID int NOT NULL,
-    studentID int NOT NULL,
-    FOREIGN KEY (professorID) REFERENCES Professors(professorID),
-    FOREIGN KEY (studentID) REFERENCES Students(studentID),
+    professorID int,
+    studentID int,
+    FOREIGN KEY (professorID) REFERENCES Professors(professorID) ON DELETE SET NULL,
+    FOREIGN KEY (studentID) REFERENCES Students(studentID) ON DELETE SET NULL,
     PRIMARY KEY (assignmentID)
 );
 

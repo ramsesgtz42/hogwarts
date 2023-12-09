@@ -28,109 +28,51 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
-                            <th>Year</th>
-                            <th>House</th>
-                            <th>Prefect</th>
-                            <th>Edit Student</th>
-                            <th>Delete Student</th>
+                            {% for key in students[0].keys() %}
+                            <th>{{ key }}</th>
+                            {% endfor %}
                         </tr>
                     </thead>
                     <tbody>
+                    {% for student in students %}
                         <tr>
-                            <td>Harry</td>
-                            <td>Potter</td>
-                            <td>hpotter@hogwarts.edu</td>
-                            <td>3</td>
-                            <td>Gryffindor</td>
-                            <td>No</td>
-                            <td>
-                                <button type="edit">Edit</button>
-                            </td>
-                            <td>
-                                <button type="delete">Delete</button>
-                            </td>
+                        {% for key in student.keys() %}
+                            <td>{{student[key]}}</td>
+                            {% endfor %}
+                            <td><a href="edit_students/{{student.studentID}}" class="btn btn-default">Edit</a></td>
+                            <td><a href="delete_students/{{student.studentID}}" class="btn btn-default">Delete</a></td>    
                         </tr>
-                        <tr>
-                            <td>Draco</td>
-                            <td>Malfoy</td>
-                            <td>dmalfoy@hogwarts.edu</td>
-                            <td>3</td>
-                            <td>Slytherin</td>
-                            <td>No</td>
-                            <td>
-                                <button type="edit">Edit</button>
-                            </td>
-                            <td>
-                                <button type="delete">Delete</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Percy</td>
-                            <td>Weasley</td>
-                            <td>pweasley@hogwarts.edu</td>
-                            <td>7</td>
-                            <td>Gryffindor</td>
-                            <td>Yes</td>
-                            <td>
-                                <button type="edit">Edit</button>
-                            </td>
-                            <td>
-                                <button type="delete">Delete</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Luna</td>
-                            <td>Lovegood</td>
-                            <td>llovegood@hogwarts.edu</td>
-                            <td>2</td>
-                            <td>Ravenclaw</td>
-                            <td>No</td>
-                            <td>
-                                <button type="edit">Edit</button>
-                            </td>
-                            <td>
-                                <button type="delete">Delete</button>
-                            </td>
-                        </tr>
-
+                        {% endfor %}
                     </tbody>
                 </table>
                 <p>&nbsp;</p>
-                <form method="POST" id="addStudent">
+                <form method="POST" id="add_Student" action="/students">
                     <legend>Add Student</legend>
                     <fieldset class="fields">
                         <label>First Name</label>
-                        <input type="text" name="fname">
+                        <input type="text" name="firstName" required>
                         <label>Last Name</label>
-                        <input type="text" name="lname">
+                        <input type="text" name="lastName" required>
                         <label>Email</label>
-                        <input type="email" name="email">
+                        <input type="email" name="studEmail" required>
                         <label>Year</label>
-                        <input type="number" name="classyear">
+                        <input type="number" name="classYear" required>
                         <label>House</label>
-                        <select name="house">
-                            <option value="Select House">Select House</option>
-                            <option value="Gryffindor">Gryffindor</option>
-                            <option value="Hufflepuff">Hufflepuff</option>
-                            <option value="Ravenclaw">Ravenclaw</option>
-                            <option value="Slytherin">Slytherin</option>
+                        <select name="houseID" required>
+                            {% for house in houses %}
+                                <option value="{{house['houseID']}}"> {{house['houseName']}}</option>
+                            {% endfor %}
                         </select>
                         <label>Prefect</label>
-                        <select name="isprefect">
-                            <option value="yes">Yes</option>
-                            <option value="no">No</option>     
+                        <select name="isPrefect" required>
+                            <option value="1">Yes</option>
+                            <option value="0" selected>No</option>     
                         </select>
-
                     </fieldset>
-                    <button type= "new">Add New Student</button>
+                    <input type="submit" name="addStudent" class="btn btn-primary" value="Add Student"></input>
                 </form>
-
             </section>
         </main>
     </body>
-
 </html>
 

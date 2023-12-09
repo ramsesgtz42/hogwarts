@@ -28,61 +28,46 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Number of Points</th>
-                            <th>Date</th>
-                            <th>Professor</th>
-                            <th>Student</th>
+                            {% for key in points[0].keys() %}
+                            <th>{{ key }}</th>
+                            {% endfor %}
                         </tr>
                     </thead>
                     <tbody>
+                    {% for point in points %}
                         <tr>
-                            <td>15</td>
-                            <td>1993-05-05</td>
-                            <td>Severus Snape</td>
-                            <td>Draco Malfoy</td>
+                            {% for key in point.keys() %}
+                            <td>{{point[key]}}</td>
+                            {% endfor %}
+                            <td><a href="edit_points/{{point.assignmentID}}" class="btn btn-default">Edit</a></td>
+                            <td><a href="delete_points/{{point.assignmentID}}" class="btn btn-default">Delete</a></td>    
                         </tr>
-                        <tr>
-                            <td>15</td>
-                            <td>1993-05-06</td>
-                            <td>Rubeus Hagrid</td>
-                            <td>Harry Potter</td>
-                        </tr>
-                        <tr>
-                            <td>15</td>
-                            <td>1993-05-07</td>
-                            <td>Filius Flitwick</td>
-                            <td>Luna Lovegood</td>
-                        </tr>
+                        {% endfor %}  
                     </tbody>
                 </table>
                 <p>&nbsp;</p>
-                <formid= "addPoints" action=
+                <form method="POST" id="add_Points" action="/points">
                     <legend>Add Points</legend>
                     <fieldset class="fields">
                         <label>Number of Points</label>
-                        <input type="number" name="numberofpoints">
+                        <input type="number" name="numOfPoints" required>
                         <label>Date</label>
-                        <input type="date" name="date">
-                        <!-- Figure out how to make select buttons out of professors and students that have been added
-                             instead of having write in answers-->
+                        <input type="date" name="dateAssigned">
                         <label>Professor</label>
-                        <select class="form-control" id="professor" name="professor" placeholder="">
-                            <option value="">&nbsp;</option>
+                        <select name="professorID" required>
                             {% for professor in professors %}
-                                {% if professor['ID'] == data[0].professorID %}
-                                    <option value="{{professor['ID']}}" selected> {{professor['Professor']}}</option>
-                                {% else %}
-                                    <option value="{{professor['ID']}}"> {{professor['Professor']}}</option>
-                                {% endif %}
-     
+                                <option value="{{professor['professorID']}}"> {{professor['Professor']}}</option>
                             {% endfor %}
                         </select>
                         <label>Student</label>
-                        <input type="text" name="student">
+                        <select name="studentID" required>
+                            {% for student in students %}
+                                <option value="{{student['studentID']}}"> {{student['Student']}}</option>
+                            {% endfor %}
+                        </select>
                     </fieldset>
-                    <button type= "new">Add Points</button>
+                    <input type="submit" name="addPoints" class="btn btn-primary" value="Add Point Assigment"></input>
                 </form>
-
             </section>
         </main>
     </body>
