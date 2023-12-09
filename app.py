@@ -4,10 +4,9 @@ import os
 import database.db_connector as db
 
 
-      # Citation for app.py, classes.j2, main.j2, edit_classes.j2
-      # Date: 11/16/23
-      # Based on: OSU CS340 Flask Starter App 
-      # Source URL: https://github.com/osu-cs340-ecampus/flask-starter-app
+# Citation: All code in this project is based on CS340 Flask Starter App
+# Date: 11/16/23
+# Source URL: https://github.com/osu-cs340-ecampus/flask-starter-app
 
 
 # Configuration
@@ -325,6 +324,17 @@ def classes():
             return redirect("/classes")
         
 
+        #if Add Student in Class button is clicked
+        if request.form.get("addStudentInClass"):
+            classID = request.form["className"]
+            studentID = request.form["studentName"]
+
+            query = "INSERT INTO Classes_To_Students (classID, studentID) VALUES ('%s', '%s')" % (classID, studentID)
+            cursor = db.execute_query(db_connection, query)
+
+
+            return redirect("/classes")
+
     if request.method == "GET":
         #query to fill first table for class info
         query = 'SELECT classID, className as Class, classLocation as Location, classTime as Time, CONCAT(Professors.firstName," ", Professors.lastName) as Professor FROM Classes INNER JOIN Professors ON Classes.professorID = Professors.professorID'
@@ -337,10 +347,16 @@ def classes():
         results3 = cursor3.fetchall()
 
         #query to show students enrolled in classes
-        query2 = 'SELECT Classes.className as Class, CONCAT(Students.firstName," ", Students.lastName) as Student FROM Classes_To_Students JOIN Classes ON Classes_To_Students.classID = Classes.classID JOIN Students ON Classes_To_Students.studentID = Students.studentID'
+        query2 = 'SELECT Classes.classID, Classes.className as Class, Students.studentID, CONCAT(Students.firstName," ", Students.lastName) as Student FROM Classes_To_Students JOIN Classes ON Classes_To_Students.classID = Classes.classID JOIN Students ON Classes_To_Students.studentID = Students.studentID'
         cursor2 = db.execute_query(db_connection, query2)
         results2 = cursor2.fetchall()
-        return render_template("classes.j2", Classes=results, student_class=results2, professors = results3)
+
+        #query to show all students for enrolling student into class
+        query = 'SELECT studentID, CONCAT(firstName," ",lastName) as Name, studEmail as Email, classYear, Houses.houseName as House FROM Students INNER JOIN Houses ON Students.houseID = Houses.houseID'
+        cursor = db.execute_query(db_connection, query)
+        results4 = cursor.fetchall()
+
+        return render_template("classes.j2", Classes=results, student_class=results2, professors = results3, students=results4)
             
             
     
@@ -351,6 +367,12 @@ def delete_class(id):
     db.execute_query(db_connection, query)
     return redirect("/classes") 
 
+@app.route("/withdraw/<int:classID>/<int:studentID>")
+def withdraw_student(classID, studentID):
+    #query to withdraw student ffrom class
+    query = "DELETE FROM Classes_To_Students WHERE classID = '%s' AND studentID = '%s'" % (classID, studentID)
+    db.execute_query(db_connection, query)
+    return redirect("/classes")
 
 @app.route("/edit_classes/<int:id>", methods=["POST", "GET"])
 def edit_class(id):

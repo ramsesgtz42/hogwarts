@@ -23,7 +23,7 @@
                         <input type="date" value="{{data[0].dateAssigned}}" class="form-control" id="dateAssigned" name="dateAssigned" required>
 
                         <label>Professor</label>
-                        <select class="form-control" id="professor" name="professor" placeholder="" required>
+                        <select class="form-control" id="professorID" name="professorID" placeholder="" required>
                             <option value="">&nbsp;</option>
                             {% for professor in professors %}
                                 {% if professor['professorID'] == data[0].professorID %}
@@ -36,7 +36,7 @@
                         </select>
 
                         <label>Student</label>
-                        <select class="form-control" id="student" name="student" placeholder="" required>
+                        <select class="form-control" id="studentID" name="studentID" placeholder="" required>
                             <option value="">&nbsp;</option>
                             {% for student in students %}
                                 {% if student['studentID'] == data[0].studentID %}

@@ -74,21 +74,29 @@
                         {% for key in thing.keys() %}
                             <td>{{thing[key]}}</td>
                             {% endfor %}
-                            <td><a href="withdraw/{{thing.studentID}}" class="btn btn-default">Withdraw </a></td>
+                            <td><a href="withdraw/{{thing.classID}}/{{thing.studentID}}" class="btn btn-default">Withdraw </a></td>
                         </tr>       
                         {% endfor %}
                     </tbody>
                 </table>
                 <p>&nbsp;</p>
-                <form method="POST" id="addstudentinclass">
+                <form method="POST" id="addStudentInClass" action="/classes">
                     <legend>Add Student in Class</legend>
                     <fieldset class="fields">
-                        <label>Class Name</label>
-                        <input type="text" name="name">
+                        <label>Classes</label>
+                        <select name="className">
+                            {% for class in Classes %}
+                                <option value="{{class['classID']}}"> {{class['Class']}}</option>
+                            {% endfor %}
+                        </select>
                         <label>Student</label>
-                        <input type="text" name="location">
+                        <select name="studentName">
+                            {% for student in students %}
+                                <option value="{{student['studentID']}}"> {{student['Name']}}</option>
+                            {% endfor %}
+                        </select>
                     </fieldset>
-                    <button>Add Student in Class</button>
+                    <input type="submit" name="addStudentInClass" class="btn btn-primary" value="Add Student In Class"></input>
                 </form>
             </section>
         </main>

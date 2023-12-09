@@ -13,7 +13,6 @@ CREATE OR REPLACE TABLE Houses (
     houseID int AUTO_INCREMENT UNIQUE NOT NULL,
     houseName varchar(15) UNIQUE NOT NULL,
     dormLocation varchar(30) UNIQUE NOT NULL,
-    housePoints int NOT NULL DEFAULT 0,
     PRIMARY KEY (houseID)
 );
 

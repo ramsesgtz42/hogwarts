@@ -1,9 +1,3 @@
 ADD dropdown for Classes_To_Students manipulation (bottom table of classes.j2)
 ADD student ID to students.j2 table
-Change names for columns on edit_classes (select query "as" for better readability)
-update DML with all querys used in app.py
-convert template file extensions to .j2
-Change values in "Head of House" on professor page to display Yes for 1 and No for 0.
 POSSIBLY add confirmation page for deletion on all entities
-POSSIBLY get rid of house points attribute(its like counting profit in a business)
-(Added auto increment to DDL houses)

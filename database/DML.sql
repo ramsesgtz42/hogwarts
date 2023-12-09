@@ -1,7 +1,11 @@
 -- Database Manipulation Queries for Project Hogwarts
 
 -- get Student information to populate Student page
-SELECT studentID, firstName, lastName, studEmail, classYear, Houses.houseName as house FROM Students
+SELECT studentID, firstName, lastName, studEmail as Email, classYear, Houses.houseName as House FROM Students
+INNER JOIN Houses ON Students.houseID = Houses.houseID;
+
+--get Student information to populate dropdown menu on Class page
+SELECT studentID, CONCAT(firstName," ",lastName) as Name, studEmail as Email, classYear, Houses.houseName as House FROM Students 
 INNER JOIN Houses ON Students.houseID = Houses.houseID;
 
 -- get Professor information to populate Professors page
@@ -76,12 +80,29 @@ UPDATE Classes SET className = :nameInput, classLocation = :locationInput,
                     classTime = :timeInput, professorID = :professorInput
                     WHERE classID = :classID_form;
 
+--Update House Data
+UPDATE Houses SET houseName = '%s', dormLocation = '%s' WHERE houseID = '%s';
+
+--Update Point Assignment Data
+UPDATE Point_Assignments SET numOfPoints = '%s', dateAssigned = '%s', professorID = '%s', studentID = '%s' WHERE assignmentID = '%s';
+
+--Update Classes_To_Students Data
+UPDATE Classes_To_Students SET classID = '%s', studentID = '%s' WHERE classID = '%s';
 
 --Withdraw a Student
 DELETE FROM Students WHERE studentID = :idInput;
 
+--Remove a Professor
+DELETE FROM Professors WHERE professorID = '%s';
+
+--Delete a House
+DELETE FROM Houses WHERE houseID = '%s';
+
 --Drop a Student's Class
-DELETE FROM Classes_To_Students WHERE classId = (SELECT Classes.classId FROM Classes WHERE className = :classInput) = :classInput AND Students.studentId = (SELECT Students.studentId FROM Students WHERE Students.firstName = :studFirstName AND Students.lastName = :studLastName); 
+DELETE FROM Classes_To_Students WHERE Classes.classId = '%s'  AND Students.studentId = '%s'; 
 
 --Delete a Class
 DELETE FROM Classes WHERE classId = :classInput;
+
+--Delete a Point Assignment
+DELETE FROM Point_Assignments WHERE assignmentID = '%s';
