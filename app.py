@@ -23,9 +23,11 @@ mysql = MySQL(app)
 def root():
     return render_template("main.j2")
 
+
+
 @app.route('/houses')
 def houses():
-    return render_template("houses.html")
+        return render_template("houses.html")
 
 @app.route('/points')
 def points():
@@ -34,6 +36,7 @@ def points():
 @app.route('/professors')
 def professors():
     return render_template("professors.html")
+
 
 @app.route('/students')
 def students():

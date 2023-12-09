@@ -56,7 +56,7 @@
                     </tbody>
                 </table>
                 <p>&nbsp;</p>
-                <form method="POST" id="addPoints">
+                <formid= "addPoints" action=
                     <legend>Add Points</legend>
                     <fieldset class="fields">
                         <label>Number of Points</label>
@@ -66,7 +66,17 @@
                         <!-- Figure out how to make select buttons out of professors and students that have been added
                              instead of having write in answers-->
                         <label>Professor</label>
-                        <input type="text" name="professor">
+                        <select class="form-control" id="professor" name="professor" placeholder="">
+                            <option value="">&nbsp;</option>
+                            {% for professor in professors %}
+                                {% if professor['ID'] == data[0].professorID %}
+                                    <option value="{{professor['ID']}}" selected> {{professor['Professor']}}</option>
+                                {% else %}
+                                    <option value="{{professor['ID']}}"> {{professor['Professor']}}</option>
+                                {% endif %}
+     
+                            {% endfor %}
+                        </select>
                         <label>Student</label>
                         <input type="text" name="student">
                     </fieldset>

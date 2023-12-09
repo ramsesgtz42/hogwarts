@@ -1,5 +1,6 @@
 nav {
   font-size: 25px;
+  background-color: rgb(244, 236, 191);
 }
 
 a:hover {
@@ -28,10 +29,9 @@ h2.content-width {
 }
 
 
-
 header {
   color: black;
-  height: 80px;
+  height: 120px;
 }
 
   th {
@@ -68,8 +68,11 @@ tr:hover {background-color: rgb(152, 189, 231);}
     margin-right: auto;
     width: 80%;
     border-radius: 8px;
+    opacity: 50%;
   }
 
 *{
   font-family:Cochin,Georgia, Times, 'Times New Roman', serif;
+ /* background-color: #5987c27d; */
 }
+
