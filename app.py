@@ -387,6 +387,37 @@ def withdraw_student(classID, studentID):
     db.execute_query(db_connection, query)
     return redirect("/classes")
 
+@app.route("/edit_cts/<int:classID>/<int:studentID>", methods=["POST", "GET"])
+def edit_cts(classID, studentID):
+    #function to edit classes_to_students information
+    if request.method == "POST":
+        if request.form.get("Edit_CTS"):
+            newclassID = request.form["newclassID"]
+            newstudentID = request.form["newstudentID"]
+            oldclassID = request.form["classID"]
+            oldstudentID = request.form["studentID"]
+
+            #query to edit classes_to_students info
+            query = "UPDATE Classes_To_Students SET classID = '%s', studentID = '%s' WHERE classID = '%s' AND studentID = '%s'" % (newclassID, newstudentID, oldclassID, oldstudentID)
+            db.execute_query(db_connection, query)
+
+            return redirect("/classes")
+        
+    if request.method == "GET":
+        query = "SELECT * FROM Classes_To_Students WHERE classID = '%s' and studentID = '%s'" % (classID, studentID)
+        cursor = db.execute_query(db_connection, query)
+        data = cursor.fetchall()
+
+        query = "SELECT * FROM Classes"
+        cursor = db.execute_query(db_connection, query)
+        classes = cursor.fetchall()
+
+        query = "SELECT studentID, CONCAT(firstName,' ',lastName) as Name FROM Students"
+        cursor = db.execute_query(db_connection, query)
+        students = cursor.fetchall()
+
+    return render_template("edit_cts.j2", data=data, classes=classes, students=students)
+
 @app.route("/edit_classes/<int:id>", methods=["POST", "GET"])
 def edit_class(id):
     if request.method == "POST":

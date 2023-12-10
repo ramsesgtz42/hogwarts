@@ -71,7 +71,6 @@
                             {% for key in student_class[0].keys() %}
                             <th>{{ key }}</th>
                             {% endfor %}
-                            <th>Withdraw Student</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -80,7 +79,8 @@
                         {% for key in thing.keys() %}
                             <td>{{thing[key]}}</td>
                             {% endfor %}
-                            <td><a href="withdraw/{{thing.classID}}/{{thing.studentID}}" class="btn btn-default">Withdraw </a></td>
+                            <td><a href="edit_cts/{{thing.classID}}/{{thing.studentID}}" class="btn btn-default">Edit</a></td>
+                            <td><a href="withdraw/{{thing.classID}}/{{thing.studentID}}" class="btn btn-default">Withdraw</a></td>
                         </tr>       
                         {% endfor %}
                     </tbody>
