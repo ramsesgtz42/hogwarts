@@ -22,20 +22,12 @@ mysql = MySQL(app)
 def root():
     return render_template("main.j2")
 
-<<<<<<< HEAD
-
-
-@app.route('/houses')
-def houses():
-        return render_template("houses.html")
-=======
 @app.route('/houses', methods=["POST", "GET"])
 def houses():
     if request.method == "POST":
         if request.form.get("addHouse"):
             houseName = request.form["houseName"]
             dormLocation = request.form["dormLocation"]
->>>>>>> 3f39c1e72337fad0a6605c38ce52cc46e98bbb86
 
             query = "INSERT INTO Houses (houseName, dormLocation) VALUES ('%s', '%s')" % (houseName, dormLocation)
             db.execute_query(db_connection, query)
@@ -164,10 +156,6 @@ def professors():
             isHeadOfHouse = request.form["isheadofhouse"]
             houseID = request.form["house"]
 
-<<<<<<< HEAD
-
-@app.route('/students')
-=======
         if houseID == "":
             #query if professor is Houseless
             query = "INSERT INTO Professors (profEmail, firstName, lastName, salary, startDate, officeLocation, isHeadOfHouse) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')" % (profEmail, firstName, lastName, salary, startDate, officeLocation, isHeadOfHouse)
@@ -247,7 +235,6 @@ def delete_professor(id):
     return redirect("/professors")
 
 @app.route('/students', methods=["POST", "GET"])
->>>>>>> 3f39c1e72337fad0a6605c38ce52cc46e98bbb86
 def students():
     if request.method == "POST":
         if request.form.get("addStudent"):
